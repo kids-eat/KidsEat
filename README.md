@@ -61,4 +61,4 @@ Kids Eat is a mobile app that notifies the local community of the locations and 
      => Navigation to Event Details
 
 ## Wireframes
-![](https://i.imgur.com/hwqQNaw.png)
+![](https://i.imgur.com/CKhi2as.png)
