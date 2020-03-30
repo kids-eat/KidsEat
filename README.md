@@ -12,27 +12,34 @@ Kids Eat is a mobile app that notifies the local community of the locations and 
 
 ### App Evaluation
 
-- **Category:**  Maps?
-- **Mobile:** Android Mobile Application. Uses Google Maps API and Firebase.
-- **Story:** Grow Appalachia is a non-profit organization located in Berea, KY, with a mission to combat food insecurity and malnutrition in various parts of the Appalachian region. Berea is home for 15,000 people, 30% of which live below the poverty line while the national average rate for poverty is 12%. Grow Appalachia recognized the problem and created the Berea Kids Eat program in a partnership with Berea College and the United States Department of Agriculture (USDA). Berea Kids Eat, one of the many initiatives of Grow Appalachia, is directed to fight childhood hunger and food insecurity within the town of Berea. The program provides free lunch and breakfast to youths aged 18 or less, especially during the summer break period when the food budget of families increases. However, they have been having problems with notifying families of the locations of the programs they have. Kids Eat mobile application will allows Berea Kids Eat program to have a centralized platform for notifying families of the location and details of their events.
+- **Category:**  Maps
+- **Mobile:** Android Mobile Application. Uses Java, Android Studio, Google Maps API, and Firebase.
+- **Story:** Grow Appalachia is a non-profit organization located in Berea, KY, with a mission to combat food insecurity and malnutrition in the Appalachian region. Berea is home for 15,000 people, 30% of whom live below the poverty line while the national average rate for poverty is 12%. To address the problem, Grow Appalachia started the Berea Kids Eat program in a partnership with Berea College and the United States Department of Agriculture (USDA). Berea Kids Eat aims to fight childhood hunger and food insecurity within the town of Berea. The program provides free lunch and breakfast to youths aged 18 or less, especially during the summer break period when the food budget of families increases. 
+- **Problem:** The organization's problem is the lack of a platform was facing an issue of   problems with notifying families of the locations of the programs they have. Kids Eat mobile application allows Berea Kids Eat program to have a centralized platform for notifying families of the location and details of their events.
 - **Market:** 30% of Berea, Kentucky population who live under the poverty line.
 - **Habit:** Users can see a detailed description of events posted by Berea Kids Eat and a visual representation of nearest food locations on an interactive map. The app will also send notifications to the user notifying them of the newest events posted. 
-- **Scope:** For the first stage we will provide this application to 15,000 population of Berea, Kentucky. Later, we plan to propose the project to United States of Agriculture for it to be used nationally. 
+- **Scope:** 
+
+**First stage:**  provide the Android application to Berea Kids Eat and expect it to be used by nearly 4,000 people in Berea, Kentucky. 
+
+**Second Stage:** develop an iOS version of the app.
+
+**Third Stage:**  propose the project to United States Department of Agriculture (USDA) for it to be used across partner USDA summer meal programs nationally.
 
 ## Product Spec
 
-### 1. User Stories (Required and Optional)
+### 1. User Stories (Must-have and Optional)
 
 **Required Must-have Stories**
 
-* A recycler-view for showing all the events that has been posted by the Berea Kids Eat organizers. 
-* Detail activity for showing the name description, meal-type, and time and date of each event. 
-* A map giving a visual picture of all the events locations.
+* User can view the list of latest 20 events posted on Kids Eat.
+* User can pull to refresh the last 20 events posted on Kids Eat.
+* The user can switch between 2 tabs: viewing list of all events (feed view) and location pins on a map for each event (map view) using fragments and a Bottom Navigation View.
 
 **Optional Nice-to-have Stories**
 
-* A notification system that notifies users of the most current events added by the Berea Kids Eat team members. 
-* Users can turn on/off notifications.
+* User can receive push notifications in the background.
+* User can turn on/off notifications.
 
 ### 2. Screen Archetypes
 
@@ -201,3 +208,18 @@ Kids Eat is a mobile app that notifies the local community of the locations and 
             }
         });
       ```
+## License
+
+    Copyright 2020 Kids Eat
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
