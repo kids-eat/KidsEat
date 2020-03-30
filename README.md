@@ -2,9 +2,10 @@
 
 ## Table of Contents
 1. [Overview](#Overview)
-1. [Product Spec](#Product-Spec)
-1. [Wireframes](#Wireframes)
-2. [Schema](#Schema)
+2. [Product Spec](#Product-Spec)
+3. [Wireframes](#Wireframes)
+4. [Schema](#Schema)
+5. [License](#License)
 
 ## Overview
 ### Description
@@ -34,6 +35,7 @@ Kids Eat is a mobile app that notifies the local community of the locations and 
 
 * User can view the list of latest 20 events posted on Kids Eat.
 * User can pull to refresh the last 20 events posted on Kids Eat.
+* User can see details of each event in a separate activity.
 * The user can switch between 2 tabs: viewing list of all events (feed view) and location pins on a map for each event (map view) using fragments and a Bottom Navigation View.
 
 **Optional Nice-to-have Stories**
