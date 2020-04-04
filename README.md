@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Overview](#Overview)
 2. [Product Spec](#Product-Spec)
-    * [Video Walkthrough](#Video Walkthrough)
+    * [Video Walkthrough](#Video-Walkthrough)
 3. [Wireframes](#Wireframes)
 4. [Schema](#Schema)
 5. [License](#License)
@@ -44,7 +44,7 @@ Kids Eat is a mobile app that notifies the local community of the locations and 
 * User can receive push notifications in the background.
 * User can turn on/off notifications.
 
-### 2. Video Walkthrough
+## 2. Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
