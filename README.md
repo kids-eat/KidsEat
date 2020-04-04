@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Overview](#Overview)
 2. [Product Spec](#Product-Spec)
-    * [Video Walkthrough](#Video-Walkthrough)
+    * [Video Walkthrough](#Video Walkthrough)
 3. [Wireframes](#Wireframes)
 4. [Schema](#Schema)
 5. [License](#License)
