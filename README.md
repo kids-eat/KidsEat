@@ -31,7 +31,7 @@ Kids Eat is a mobile app that notifies the local community of the locations and 
 ## Product Spec
 ### Video Walkthrough
 
-Here's a walkthrough of implemented user stories:
+Here's a walkthrough of implemented user stories in Sprint 2:
 
 <img src='https://github.com/Kids-Eat/KidsEat/blob/master/KidsEatDemo1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
