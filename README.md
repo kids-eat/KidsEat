@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Overview](#Overview)
 2. [Product Spec](#Product-Spec)
-   * [Video Walkthrough](#2.-Video-Walkthrough)
+   * [Video Walkthrough](#Video-Walkthrough)
 3. [Wireframes](#Wireframes)
 4. [Schema](#Schema)
 5. [License](#License)
@@ -30,7 +30,7 @@ Kids Eat is a mobile app that notifies the local community of the locations and 
 
 ## Product Spec
 
-### 1. User Stories (Must-have and Optional)
+### User Stories (Must-have and Optional)
 
 **Required Must-have Stories**
 
@@ -44,7 +44,7 @@ Kids Eat is a mobile app that notifies the local community of the locations and 
 * User can receive push notifications in the background.
 * User can turn on/off notifications.
 
-### 2. Video Walkthrough
+### Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
@@ -52,7 +52,7 @@ Here's a walkthrough of implemented user stories:
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
-### 3. Screen Archetypes
+### Screen Archetypes
 
 * Stream
    * Create a list of events based on the data entered by Berea Kids Eat. 
@@ -62,7 +62,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 * Settings
   * Allow users to enable/disable notifications. (BONUS)
-### 4. Navigation
+### Navigation
 
 **Tab Navigation** (Tab to Screen)
 
