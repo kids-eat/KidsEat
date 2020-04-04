@@ -29,25 +29,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bottomNavigation);
+
         // Listener for the bottom navigation view:
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
+                // use switch to select the fragments
                 switch (item.getItemId()) {
                     case R.id.action_list:
                         fragment = new TimelineFragment();
                         break;
                     case R.id.action_map:
-                        Toast.makeText(MainActivity.this, "Map View", Toast.LENGTH_SHORT).show();
                         fragment = new MapFragment();
                         break;
                     default:
                         fragment = new TimelineFragment();
                         break;
                 }
+                // replace the container with the appropriate fragment
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-
                 return true;
             }
         });

@@ -2,6 +2,7 @@ package com.example.kidseat.adapters;
 
 import android.content.res.Resources;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,16 +76,15 @@ public class EventsAdapter extends FirestoreAdapter<EventsAdapter.ViewHolder> {
             Event event = snapshot.toObject(Event.class);
             Resources resources = itemView.getResources();
 
-            // In case, we deal with an image: Load image
-//            Glide.with(imageView.getContext())
-//                    .load(event.getPhoto())
-//                    .into(imageView);
-
             tvEventName.setText(event.getName());
             tvEventDate.setText(event.getDate());
             tvEventTime.setText(event.getTime());
             tvEventAddress.setText(event.getAddress());
-            Glide.with(ivItemImage.getContext()).load(event.getImage()).into(ivItemImage);
+
+            // Using glide library to display an image
+            Glide.with(ivItemImage.getContext())
+                    .load(event.getImage())
+                    .into(ivItemImage);
 
             // Click listener
             itemView.setOnClickListener(new View.OnClickListener() {
