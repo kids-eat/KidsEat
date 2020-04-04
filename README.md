@@ -29,7 +29,13 @@ Kids Eat is a mobile app that notifies the local community of the locations and 
 **Third Stage:**  propose the project to United States Department of Agriculture (USDA) for it to be used across partner USDA summer meal programs nationally.
 
 ## Product Spec
+### Video Walkthrough
 
+Here's a walkthrough of implemented user stories:
+
+<img src='https://github.com/Kids-Eat/KidsEat/blob/master/KidsEatDemo1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ### User Stories (Must-have and Optional)
 
 **Required Must-have Stories**
@@ -43,14 +49,6 @@ Kids Eat is a mobile app that notifies the local community of the locations and 
 
 * User can receive push notifications in the background.
 * User can turn on/off notifications.
-
-### Video Walkthrough
-
-Here's a walkthrough of implemented user stories:
-
-<img src='https://github.com/Kids-Eat/KidsEat/blob/master/KidsEatDemo1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ### Screen Archetypes
 
