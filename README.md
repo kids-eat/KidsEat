@@ -40,10 +40,10 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 **Required Must-have Stories**
 
-* User can view the list of latest 20 events posted on Kids Eat.
-* User can pull to refresh the last 20 events posted on Kids Eat.
-* User can see details of each event in a separate activity.
-* The user can switch between 2 tabs: viewing list of all events (feed view) and location pins on a map for each event (map view) using fragments and a Bottom Navigation View.
+- [x] User can view the list of latest 20 events posted on Kids Eat.
+- [x] User can pull to refresh the last 20 events posted on Kids Eat.
+- [x] User can see details of each event in a separate activity.
+- [x] The user can switch between 2 tabs: viewing list of all events (feed view) and location pins on a map for each event (map view) using fragments and a Bottom Navigation View.
 
 **Optional Nice-to-have Stories**
 
