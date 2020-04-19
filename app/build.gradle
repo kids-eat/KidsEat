@@ -53,5 +53,6 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${appCompatVersion}"
     implementation "com.google.android.material:material:${designSupportVersion}"
 
-    implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
+
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
 }

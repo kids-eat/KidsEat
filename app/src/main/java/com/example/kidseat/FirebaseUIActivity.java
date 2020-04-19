@@ -16,14 +16,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.kidseat.organizer_activities.AddEventActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-//import com.google.firebase.auth.FirebaseAuthMultiFactorException;
 import com.google.firebase.auth.FirebaseUser;
-//import com.google.firebase.auth.MultiFactorResolver;
-//import com.google.firebase.quickstart.auth.R;
+import com.google.firebase.auth.GetTokenResult;
 
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class FirebaseUIActivity extends AppCompatActivity implements View.OnClickListener {
@@ -75,7 +77,19 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
+
     // [END on_start_check_user]
+
+//    public void makeAdmin() {
+//        FirebaseUser user = FirebaseAuth.getInstance()
+//                .getUserByEmail("user@admin.example.com");
+//        // Confirm user is verified.
+//        if (user.isEmailVerified()) {
+//            Map<String, Object> claims = new HashMap<>();
+//            claims.put("admin", true);
+//            FirebaseAuth.getInstance().setCustomUserClaims(user.getUid(), claims);
+//        }
+//    }
 
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
@@ -229,21 +243,34 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
     private void updateUI(FirebaseUser user) {
         hideProgressBar();
         if (user != null) {
+            user.getIdToken(false).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
+                @Override
+                public void onSuccess(GetTokenResult result) {
+                    boolean isAdmin = (boolean) result.getClaims().get("admin");
+                    if (isAdmin) {
+                        // Show admin UI.
+                        showAdminUI();
+                    } else {
+                        // Show regular user UI.
+                        showRegularUI();
+                    }
+                }
+            });
 
-//            startActivity(new Intent(FirebaseUIActivity.this, AddEventActivity.class));
-            mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
-                    user.getEmail(), user.isEmailVerified()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+////            startActivity(new Intent(FirebaseUIActivity.this, AddEventActivity.class));
+//            mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
+//                    user.getEmail(), user.isEmailVerified()));
+//            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+//
+//            findViewById(R.id.emailPasswordButtons).setVisibility(View.GONE);
+//            findViewById(R.id.emailPasswordFields).setVisibility(View.GONE);
+//            findViewById(R.id.signedInButtons).setVisibility(View.VISIBLE);
 
-            findViewById(R.id.emailPasswordButtons).setVisibility(View.GONE);
-            findViewById(R.id.emailPasswordFields).setVisibility(View.GONE);
-            findViewById(R.id.signedInButtons).setVisibility(View.VISIBLE);
-
-            if (user.isEmailVerified()) {
-                findViewById(R.id.verifyEmailButton).setVisibility(View.GONE);
-            } else {
-                findViewById(R.id.verifyEmailButton).setVisibility(View.VISIBLE);
-            }
+//            if (user.isEmailVerified()) {
+//                findViewById(R.id.verifyEmailButton).setVisibility(View.GONE);
+//            } else {
+//                findViewById(R.id.verifyEmailButton).setVisibility(View.VISIBLE);
+//            }
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);
@@ -254,19 +281,13 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-//    private void checkForMultiFactorFailure(Exception e) {
-//        // Multi-factor authentication with SMS is currently only available for
-//        // Google Cloud Identity Platform projects. For more information:
-//        // https://cloud.google.com/identity-platform/docs/android/mfa
-//        if (e instanceof FirebaseAuthMultiFactorException) {
-//            Log.w(TAG, "multiFactorFailure", e);
-//            Intent intent = new Intent();
-//            MultiFactorResolver resolver = ((FirebaseAuthMultiFactorException) e).getResolver();
-//            intent.putExtra("EXTRA_MFA_RESOLVER", resolver);
-//            setResult(MultiFactorActivity.RESULT_NEEDS_MFA_SIGN_IN, intent);
-//            finish();
-//        }
-//    }
+    private void showAdminUI() {
+        startActivity(new Intent(FirebaseUIActivity.this, AddEventActivity.class));
+    }
+
+    private void showRegularUI() {
+        startActivity(new Intent(FirebaseUIActivity.this, MainActivity.class));
+    }
 
     @Override
     public void onClick(View v) {
