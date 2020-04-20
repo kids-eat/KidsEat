@@ -39,7 +39,7 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
     private EditText mPasswordField;
 
     // [START declare_auth]
-    private FirebaseAuth mAuth;
+    public FirebaseAuth mAuth;
     // [END declare_auth]
 
     public ProgressBar mProgressBar;
@@ -163,7 +163,7 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
         // [END sign_in_with_email]
     }
 
-    private void signOut() {
+    public void signOut() {
         mAuth.signOut();
         updateUI(null);
     }
@@ -243,21 +243,21 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
     private void updateUI(FirebaseUser user) {
         hideProgressBar();
         if (user != null) {
-            user.getIdToken(false).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
-                @Override
-                public void onSuccess(GetTokenResult result) {
-                    boolean isAdmin = (boolean) result.getClaims().get("admin");
-                    if (isAdmin) {
-                        // Show admin UI.
-                        showAdminUI();
-                    } else {
-                        // Show regular user UI.
-                        showRegularUI();
-                    }
-                }
-            });
-
-////            startActivity(new Intent(FirebaseUIActivity.this, AddEventActivity.class));
+//            user.getIdToken(false).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
+//                @Override
+//                public void onSuccess(GetTokenResult result) {
+//                    boolean isAdmin = (boolean) result.getClaims().get("admin");
+//                    if (isAdmin) {
+//                        // Show admin UI.
+//                        showAdminUI();
+//                    } else {
+//                        // Show regular user UI.
+//                        showRegularUI();
+//                    }
+//                }
+//            });
+            showRegularUI();
+//            startActivity(new Intent(FirebaseUIActivity.this, AddEventActivity.class));
 //            mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
 //                    user.getEmail(), user.isEmailVerified()));
 //            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
@@ -266,11 +266,11 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
 //            findViewById(R.id.emailPasswordFields).setVisibility(View.GONE);
 //            findViewById(R.id.signedInButtons).setVisibility(View.VISIBLE);
 
-//            if (user.isEmailVerified()) {
-//                findViewById(R.id.verifyEmailButton).setVisibility(View.GONE);
-//            } else {
-//                findViewById(R.id.verifyEmailButton).setVisibility(View.VISIBLE);
-//            }
+            if (user.isEmailVerified()) {
+                findViewById(R.id.verifyEmailButton).setVisibility(View.GONE);
+            } else {
+                findViewById(R.id.verifyEmailButton).setVisibility(View.VISIBLE);
+            }
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);

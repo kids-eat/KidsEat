@@ -1,8 +1,8 @@
 package com.example.kidseat.models;
 
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.IgnoreExtraProperties;
-import com.google.firebase.firestore.model.value.TimestampValue;
 
 import java.util.Date;
 
@@ -10,19 +10,19 @@ import java.util.Date;
 public class Event {
 
     private String name;
-    private String meal_type;
     private String date;
     private String time;
     private String address;
-    private String image;
+    private String meal_type;
     private String description;
-    private TimestampValue created_at;
+    private String image;
+    private Timestamp created_at;
 //    private TimestampValue mTimestamp;
 
 
     public Event() { }
 
-    public Event(String name, String meal_type, String address, String date, String time, String description, String image, TimestampValue created_at) {
+    public Event(String name, String meal_type, String address, String date, String time, String description, String image, Timestamp created_at) {
         this.name = name;
         this.meal_type = meal_type;
         this.address = address;
@@ -38,18 +38,8 @@ public class Event {
         return name;
     }
 
-    public String getMealType() {return meal_type;}
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getDate() {
@@ -64,11 +54,23 @@ public class Event {
         return time;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getMealType() {return meal_type;}
+
     public String getDescription() {return description;}
 
     public String getImage() {return image;}
 
-    public TimestampValue getTimestamp() { return created_at; }
+    public void setImage(String image) {this.image = image;}
+
+    public Timestamp getTimestamp() { return created_at; }
 
 
 

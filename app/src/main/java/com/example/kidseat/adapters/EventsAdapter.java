@@ -24,7 +24,6 @@ import com.google.firebase.firestore.Query;
 
 public class EventsAdapter extends FirestoreAdapter<EventsAdapter.ViewHolder> {
 
-
     public interface OnEventSelectedListener {
 
         void onEventSelected(DocumentSnapshot event);

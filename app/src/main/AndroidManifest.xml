@@ -17,7 +17,7 @@
         android:roundIcon="@drawable/kids_eat_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".organizer_activities.ManageEventActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -28,12 +28,11 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
-<!--        <activity-->
-<!--            android:name=".MapsActivity"-->
-<!--            android:label="@string/title_activity_maps"></activity>-->
+            android:value="@string/google_maps_key" /> <!-- <activity -->
+        <!-- android:name=".MapsActivity" -->
+        <!-- android:label="@string/title_activity_maps"></activity> -->
         <activity android:name=".organizer_activities.AddEventActivity" />
+        <activity android:name=".organizer_activities.OrganizerMainActivity" />
         <activity android:name=".FirebaseUIActivity" />
         <activity
             android:name=".SplashScreenActivity"
