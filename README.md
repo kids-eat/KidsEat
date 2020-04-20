@@ -31,9 +31,9 @@ Kids Eat is a mobile app that notifies the local community of the locations and 
 ## Product Spec
 ### Video Walkthrough
 
-Here's a walkthrough of implemented user stories in Sprint 2:
+Here's a walkthrough of implemented user stories in Sprint 3:
 
-<img src='https://github.com/Kids-Eat/KidsEat/blob/master/KidsEatDemo1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/Kids-Eat/KidsEat/blob/master/KidsEatDemo3.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ### User Stories (Must-have and Optional)
@@ -44,6 +44,9 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 - [x] User can pull to refresh the last 20 events posted on Kids Eat.
 - [x] User can see details of each event in a separate activity.
 - [x] The user can switch between 2 tabs: viewing list of all events (feed view) and location pins on a map for each event (map view) using fragments and a Bottom Navigation View.
+- [x] User can sign in and out.
+- [x] Admin/Organizer can view a separate view of list of events.
+- [x] Admin/Organizer can add events using a form.
 
 **Optional Nice-to-have Stories**
 
