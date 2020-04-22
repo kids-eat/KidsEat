@@ -11,6 +11,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -18,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.kidseat.FirebaseUIActivity;
+import com.example.kidseat.MainActivity;
 import com.example.kidseat.R;
 import com.example.kidseat.models.Event;
 import com.google.android.gms.common.api.Status;
@@ -29,6 +34,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -60,6 +66,7 @@ public class AddEventActivity extends AppCompatActivity {
 
     FirebaseFirestore mFirestore;
     StorageReference mStorageRef;
+    public FirebaseAuth mAuth;
 
     EditText etName;
     EditText etDate;
@@ -90,6 +97,8 @@ public class AddEventActivity extends AppCompatActivity {
         btnChooseImage = findViewById(R.id.btnChooseImage);
         btnSave = findViewById(R.id.btnSave);
         progBar = findViewById(R.id.progBar);
+
+        mAuth = FirebaseAuth.getInstance();
 
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mFirestore = FirebaseFirestore.getInstance();
@@ -262,6 +271,27 @@ public class AddEventActivity extends AppCompatActivity {
                 }
             });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        if (item.getItemId() == R.id.action_sign_out) {
+            mAuth.signOut();
+            startActivity(new Intent(AddEventActivity.this, FirebaseUIActivity.class));
+            return true;
+//            case R.id.help:
+//                showHelp();
+//                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.kidseat.organizer_activities.AddEventActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -23,6 +24,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +33,8 @@ import java.util.Map;
 
 public class FirebaseUIActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "EmailPassword";
+    private static final String TAG = "FirebaseUIActivity";
+    public static final String USER_ID = "user_id";
 
     private TextView mStatusTextView;
     private TextView mDetailTextView;
@@ -41,6 +45,7 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
     // [START declare_auth]
     public FirebaseAuth mAuth;
     // [END declare_auth]
+    FirebaseFirestore mFirestore;
 
     public ProgressBar mProgressBar;
 
@@ -50,6 +55,10 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_firebase_ui);
         setProgressBar(R.id.progressBar);
 
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        // [END initialize_auth]
+        mFirestore = FirebaseFirestore.getInstance();
          //Views
         mStatusTextView = findViewById(R.id.status);
         mDetailTextView = findViewById(R.id.detail);
@@ -58,15 +67,10 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
 
         // Buttons
         findViewById(R.id.emailSignInButton).setOnClickListener(this);
-        //findViewById(R.id.emailCreateAccountButton).setOnClickListener(this);
+        findViewById(R.id.emailCreateAccountButton).setOnClickListener(this);
         findViewById(R.id.signOutButton).setOnClickListener(this);
         //findViewById(R.id.verifyEmailButton).setOnClickListener(this);
         //findViewById(R.id.reloadButton).setOnClickListener(this);
-
-        // [START initialize_auth]
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
     }
 
     // [START on_start_check_user]
@@ -108,7 +112,16 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            assert user != null;
+                            String user_Id = user.getUid();
+                            Map<String, Object> userToSave = new HashMap<String, Object>();
+                            userToSave.put(USER_ID, user_Id);
+
                             updateUI(user);
+                            mFirestore.collection("users")
+                                    .document(user_Id)
+                                        .set(userToSave);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -143,6 +156,7 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -242,6 +256,7 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
 
     private void updateUI(FirebaseUser user) {
         hideProgressBar();
+
         if (user != null) {
 //            user.getIdToken(false).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
 //                @Override
@@ -266,11 +281,11 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
 //            findViewById(R.id.emailPasswordFields).setVisibility(View.GONE);
 //            findViewById(R.id.signedInButtons).setVisibility(View.VISIBLE);
 
-            if (user.isEmailVerified()) {
-                findViewById(R.id.verifyEmailButton).setVisibility(View.GONE);
-            } else {
-                findViewById(R.id.verifyEmailButton).setVisibility(View.VISIBLE);
-            }
+//            if (user.isEmailVerified()) {
+//                findViewById(R.id.verifyEmailButton).setVisibility(View.GONE);
+//            } else {
+//                findViewById(R.id.verifyEmailButton).setVisibility(View.VISIBLE);
+//            }
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);
