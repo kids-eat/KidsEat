@@ -14,7 +14,7 @@ public class SplashScreenActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startActivity(new Intent(SplashScreenActivity.this, OrganizerMainActivity.class));
+        startActivity(new Intent(SplashScreenActivity.this, FirebaseUIActivity.class));
 
         // close splash activity
         finish();
