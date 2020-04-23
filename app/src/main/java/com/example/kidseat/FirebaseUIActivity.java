@@ -113,7 +113,7 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
                             assert user != null;
                             String user_Id = user.getUid();
                             Map<String, Object> userAcessLevel = new HashMap<String, Object>();
-                            userAcessLevel.put(IS_ADMIN, false);
+                            userAcessLevel.put(IS_ADMIN, "false");
                             // Add user admin privileges to users collection in Firestore
                             mFirestore.collection("users")
                                     .document(user_Id)
@@ -167,7 +167,9 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
 
                         // [START_EXCLUDE]
                         if (!task.isSuccessful()) {
-                            mStatusTextView.setText(R.string.auth_failed);
+                            Toast.makeText(FirebaseUIActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            //mStatusTextView.setText(R.string.auth_failed);
                         }
                         hideProgressBar();
                         // [END_EXCLUDE]
@@ -175,12 +177,6 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
                 });
         // [END sign_in_with_email]
     }
-
-    public void signOut() {
-        mAuth.signOut();
-        updateUI(null);
-    }
-
 
     private boolean validateForm() {
         boolean valid = true;

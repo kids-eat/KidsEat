@@ -3,9 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_sign_out"
+        android:title="@string/sign_out"
+        android:visible="true"/>
+
+    <item
         android:id="@+id/action_add_event"
         android:icon="@android:drawable/ic_input_add"
         android:iconTint="#FFFFFF"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:title="@string/add_event" />
 
 </menu>

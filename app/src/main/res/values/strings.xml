@@ -11,4 +11,5 @@
     <string name="signed_out">Signed Out</string>
     <string name="emailpassword_title_text">Welcome!</string>
     <string name="logo">logo</string>
+    <string name="add_event">add_event</string>
 </resources>

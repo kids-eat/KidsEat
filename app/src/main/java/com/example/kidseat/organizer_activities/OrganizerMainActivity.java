@@ -21,6 +21,7 @@ import com.example.kidseat.FirebaseUIActivity;
 import com.example.kidseat.MainActivity;
 import com.example.kidseat.R;
 import com.example.kidseat.adapters.EventsAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -34,6 +35,8 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
     private static int LIMIT = 20;
 
     private FirebaseFirestore dbFirestore;
+    FirebaseAuth mAuth;
+
     private Query query;
 
     LinearLayoutManager layoutManager;
@@ -69,6 +72,7 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
 
         layoutManager = new LinearLayoutManager(this);
 
+        mAuth = FirebaseAuth.getInstance();
         // Enable Firestore logging
         FirebaseFirestore.setLoggingEnabled(true);
 
@@ -144,9 +148,11 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
             case R.id.action_add_event: // goes to Add Event Activity when "plus" sign is clicked
                 startActivity(new Intent(OrganizerMainActivity.this, AddEventActivity.class));
                 return true;
-//            case R.id.help:
-//                showHelp();
-//                return true;
+            case R.id.action_sign_out:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(OrganizerMainActivity.this, FirebaseUIActivity.class));
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
