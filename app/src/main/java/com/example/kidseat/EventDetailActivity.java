@@ -44,7 +44,7 @@ public class EventDetailActivity extends AppCompatActivity {
         this.context = context;
     }
 
-    public EventDetailActivity() {}
+    public EventDetailActivity() {}   // Empty constructor is needed
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

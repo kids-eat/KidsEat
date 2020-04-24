@@ -14,4 +14,9 @@
         app:showAsAction="always"
         android:title="@string/add_event" />
 
+    <item
+        android:id="@+id/action_sign_out"
+        android:title="@string/sign_out"
+        android:visible="true"/>
+
 </menu>

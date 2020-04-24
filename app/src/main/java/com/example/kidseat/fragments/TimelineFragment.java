@@ -52,7 +52,6 @@ public class TimelineFragment extends Fragment implements EventsAdapter.OnEventS
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -130,10 +129,8 @@ public class TimelineFragment extends Fragment implements EventsAdapter.OnEventS
             }
         };
 
-
         rvEvents.setLayoutManager(layoutManager);
         rvEvents.setAdapter(adapter);
-
 
     }
 

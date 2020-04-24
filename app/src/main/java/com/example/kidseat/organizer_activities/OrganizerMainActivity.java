@@ -17,15 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.kidseat.EventDetailActivity;
+
 import com.example.kidseat.FirebaseUIActivity;
-import com.example.kidseat.MainActivity;
 import com.example.kidseat.R;
 import com.example.kidseat.adapters.EventsAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -34,7 +30,7 @@ import com.google.firebase.firestore.Query;
 
 public class OrganizerMainActivity extends AppCompatActivity implements EventsAdapter.OnEventSelectedListener {
 
-    private static final String TAG = "TimelineFragment";
+    private static final String TAG = "OrganizerMainActivity";
 
     private static int LIMIT = 20;
 
@@ -55,6 +51,7 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organizer_main);
 
+        mAuth = FirebaseAuth.getInstance();
         rvEvents = findViewById(R.id.rvEvents);
         swipeContainer = findViewById(R.id.swipeContainer);
 
@@ -150,7 +147,8 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_add_event: // goes to Add Event Activity when "plus" sign is clicked
-                startActivity(new Intent(OrganizerMainActivity.this, AddEventActivity.class));
+                Intent intent = new Intent(OrganizerMainActivity.this, AddEventActivity.class);
+                this.startActivity(intent);
                 return true;
             case R.id.action_sign_out:
                 FirebaseAuth.getInstance().signOut();
@@ -165,8 +163,8 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
     @Override
     public void onEventSelected(DocumentSnapshot event) {
         // Go to the details page for the selected restaurant
-        Intent i = new Intent(this, AddEventActivity.class);
-        i.putExtra(AddEventActivity.EVENT_ID, event.getId()); // Todo: check event detail activity
+        Intent i = new Intent(this, ManageEventActivity.class);
+        i.putExtra(ManageEventActivity.EVENT_ID, event.getId());
         Log.i(TAG, "Got event ID: " + event.getId());
         startActivity(i);
     }
