@@ -3,6 +3,7 @@ package com.example.kidseat.organizer_activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -75,7 +76,6 @@ public class AddEventActivity extends AppCompatActivity {
 
     FirebaseFirestore mFirestore;
     StorageReference mStorageRef;
-    public FirebaseAuth mAuth;
 
     EditText etName;
     EditText etDate;
@@ -112,8 +112,6 @@ public class AddEventActivity extends AppCompatActivity {
         ivImage = findViewById(R.id.ivImage);
         btnSave = findViewById(R.id.btnSave);
         progBar = findViewById(R.id.progBar);
-
-        mAuth = FirebaseAuth.getInstance();
 
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mFirestore = FirebaseFirestore.getInstance();

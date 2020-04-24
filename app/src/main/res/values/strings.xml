@@ -2,10 +2,6 @@
     <string name="app_name">KidsEat</string>
     <string name="title_activity_maps">Kids Eat</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="verify_email">Verify Email</string>
-    <string name="reload">Reload</string>
     <string name="sign_out">Sign Out</string>
     <string name="create_account">Create Account</string>
     <string name="sign_in">Sign In</string>
@@ -13,7 +9,7 @@
     <string name="hint_email">Email</string>
     <string name="auth_failed">Authentication Failed</string>
     <string name="signed_out">Signed Out</string>
-    <string name="firebase_status_fmt">Firebase UID: %s</string>
-    <string name="emailpassword_status_fmt">Email User: %1$s (verified: %2$b)</string>
-    <string name="emailpassword_title_text">Email and Password</string>
+    <string name="emailpassword_title_text">Welcome!</string>
+    <string name="logo">logo</string>
+    <string name="add_event">add_event</string>
 </resources>

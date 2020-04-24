@@ -14,27 +14,25 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.kidseat.organizer_activities.AddEventActivity;
+import com.example.kidseat.organizer_activities.OrganizerMainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class FirebaseUIActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "FirebaseUIActivity";
-    public static final String USER_ID = "user_id";
+    public static final String IS_ADMIN = "isAdmin";
 
     private TextView mStatusTextView;
     private TextView mDetailTextView;
@@ -46,8 +44,11 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
     public FirebaseAuth mAuth;
     // [END declare_auth]
     FirebaseFirestore mFirestore;
+    public DocumentReference userInfo;
 
     public ProgressBar mProgressBar;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,19 +59,16 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
+
+        // Cloud Firestore
         mFirestore = FirebaseFirestore.getInstance();
          //Views
-        mStatusTextView = findViewById(R.id.status);
-        mDetailTextView = findViewById(R.id.detail);
         mEmailField = findViewById(R.id.fieldEmail);
         mPasswordField = findViewById(R.id.fieldPassword);
 
         // Buttons
         findViewById(R.id.emailSignInButton).setOnClickListener(this);
         findViewById(R.id.emailCreateAccountButton).setOnClickListener(this);
-        findViewById(R.id.signOutButton).setOnClickListener(this);
-        //findViewById(R.id.verifyEmailButton).setOnClickListener(this);
-        //findViewById(R.id.reloadButton).setOnClickListener(this);
     }
 
     // [START on_start_check_user]
@@ -84,15 +82,13 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
 
     // [END on_start_check_user]
 
-//    public void makeAdmin() {
-//        FirebaseUser user = FirebaseAuth.getInstance()
-//                .getUserByEmail("user@admin.example.com");
-//        // Confirm user is verified.
-//        if (user.isEmailVerified()) {
-//            Map<String, Object> claims = new HashMap<>();
-//            claims.put("admin", true);
-//            FirebaseAuth.getInstance().setCustomUserClaims(user.getUid(), claims);
-//        }
+//    public void makeAdmin(String email) {
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        assert currentUser != null;
+//        currentUser.getEmail();
+//        //get user by email
+//        // get their uid
+//        // set their isAdmin to true
 //    }
 
     private void createAccount(String email, String password) {
@@ -112,15 +108,18 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            // Create a hashmap of user admin privileges to add to users collection
                             assert user != null;
                             String user_Id = user.getUid();
-                            Map<String, Object> userToSave = new HashMap<String, Object>();
-                            userToSave.put(USER_ID, user_Id);
-
-                            updateUI(user);
+                            Map<String, Object> userAcessLevel = new HashMap<String, Object>();
+                            userAcessLevel.put(IS_ADMIN, "false");
+                            // Add user admin privileges to users collection in Firestore
                             mFirestore.collection("users")
                                     .document(user_Id)
-                                        .set(userToSave);
+                                        .set(userAcessLevel);
+
+                            updateUI(user);
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -168,68 +167,15 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
 
                         // [START_EXCLUDE]
                         if (!task.isSuccessful()) {
-                            mStatusTextView.setText(R.string.auth_failed);
+                            Toast.makeText(FirebaseUIActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            //mStatusTextView.setText(R.string.auth_failed);
                         }
                         hideProgressBar();
                         // [END_EXCLUDE]
                     }
                 });
         // [END sign_in_with_email]
-    }
-
-    public void signOut() {
-        mAuth.signOut();
-        updateUI(null);
-    }
-
-    private void sendEmailVerification() {
-        // Disable button
-        findViewById(R.id.verifyEmailButton).setEnabled(false);
-
-        // Send verification email
-        // [START send_email_verification]
-        final FirebaseUser user = mAuth.getCurrentUser();
-        user.sendEmailVerification()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // [START_EXCLUDE]
-                        // Re-enable button
-                        findViewById(R.id.verifyEmailButton).setEnabled(true);
-
-                        if (task.isSuccessful()) {
-                            Toast.makeText(FirebaseUIActivity.this,
-                                    "Verification email sent to " + user.getEmail(),
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Log.e(TAG, "sendEmailVerification", task.getException());
-                            Toast.makeText(FirebaseUIActivity.this,
-                                    "Failed to send verification email.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        // [END_EXCLUDE]
-                    }
-                });
-        // [END send_email_verification]
-    }
-
-    private void reload() {
-        mAuth.getCurrentUser().reload().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    updateUI(mAuth.getCurrentUser());
-                    Toast.makeText(FirebaseUIActivity.this,
-                            "Reload successful!",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.e(TAG, "reload", task.getException());
-                    Toast.makeText(FirebaseUIActivity.this,
-                            "Failed to reload user.",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     private boolean validateForm() {
@@ -258,46 +204,35 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
         hideProgressBar();
 
         if (user != null) {
-//            user.getIdToken(false).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
-//                @Override
-//                public void onSuccess(GetTokenResult result) {
-//                    boolean isAdmin = (boolean) result.getClaims().get("admin");
-//                    if (isAdmin) {
-//                        // Show admin UI.
-//                        showAdminUI();
-//                    } else {
-//                        // Show regular user UI.
-//                        showRegularUI();
-//                    }
-//                }
-//            });
-            showRegularUI();
-//            startActivity(new Intent(FirebaseUIActivity.this, AddEventActivity.class));
-//            mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
-//                    user.getEmail(), user.isEmailVerified()));
-//            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-//
-//            findViewById(R.id.emailPasswordButtons).setVisibility(View.GONE);
-//            findViewById(R.id.emailPasswordFields).setVisibility(View.GONE);
-//            findViewById(R.id.signedInButtons).setVisibility(View.VISIBLE);
+            userInfo = mFirestore.collection("users").document(user.getUid());
 
-//            if (user.isEmailVerified()) {
-//                findViewById(R.id.verifyEmailButton).setVisibility(View.GONE);
-//            } else {
-//                findViewById(R.id.verifyEmailButton).setVisibility(View.VISIBLE);
-//            }
+            userInfo.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        if (documentSnapshot != null) {
+                            if(Objects.requireNonNull(documentSnapshot.getString("isAdmin")).equals("true")){
+                                showAdminUI();
+                            }
+                            else {
+                                showRegularUI();
+                            }
+                        }
+                        else {
+                            Log.d(TAG, "Getting document failed: ", task.getException());
+                        }
+                    }
+                }
+            });
         } else {
-            mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
 
             findViewById(R.id.emailPasswordButtons).setVisibility(View.VISIBLE);
-            findViewById(R.id.emailPasswordFields).setVisibility(View.VISIBLE);
-            findViewById(R.id.signedInButtons).setVisibility(View.GONE);
         }
     }
 
     private void showAdminUI() {
-        startActivity(new Intent(FirebaseUIActivity.this, AddEventActivity.class));
+        startActivity(new Intent(FirebaseUIActivity.this, OrganizerMainActivity.class));
     }
 
     private void showRegularUI() {
@@ -311,12 +246,6 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
             createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.emailSignInButton) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.signOutButton) {
-            signOut();
-        } else if (i == R.id.verifyEmailButton) {
-            sendEmailVerification();
-        } else if (i == R.id.reloadButton) {
-            reload();
         }
     }
 

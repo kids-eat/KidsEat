@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,8 +35,9 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
     private static int LIMIT = 20;
 
     private FirebaseFirestore dbFirestore;
+    FirebaseAuth mAuth;
+
     private Query query;
-    private FirebaseAuth mAuth;
 
     LinearLayoutManager layoutManager;
 
@@ -71,6 +73,7 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
 
         layoutManager = new LinearLayoutManager(this);
 
+        mAuth = FirebaseAuth.getInstance();
         // Enable Firestore logging
         FirebaseFirestore.setLoggingEnabled(true);
 
@@ -148,9 +151,9 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
                 this.startActivity(intent);
                 return true;
             case R.id.action_sign_out:
-                mAuth.signOut();
-                Intent i = new Intent(OrganizerMainActivity.this, FirebaseUIActivity.class);
-                this.startActivity(i);
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(OrganizerMainActivity.this, FirebaseUIActivity.class));
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
