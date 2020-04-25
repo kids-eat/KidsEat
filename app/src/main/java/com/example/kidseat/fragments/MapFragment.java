@@ -24,8 +24,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.logging.SimpleFormatter;
 
 
 /**
@@ -37,6 +44,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final String ADDRESS_KEY = "address";
     private static final String LATITUDE_KEY = "latitude";
     private static final String LONGITUDE_KEY = "longitude";
+    public static final String DATE_KEY = "date";
 
     private static final String TAG = "MapFragment";
 
@@ -74,11 +82,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
     }
 
+    private static boolean convertDateAndCompare(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
+        ParsePosition pos = new ParsePosition(0);
+        Date currentTime = Calendar.getInstance().getTime();
+        Date _date = dateFormat.parse(date, pos);
+        assert _date != null;
+        return _date.after(currentTime); // if true show event else do not
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         zoom = 15;
+
         // Add a markers for each event location
         mFirestore.collection("events")
                 .get()
@@ -90,15 +107,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                 HashMap<String, Double> latlng = (HashMap<String, Double>) document.get("latlng");
                                 String name = document.getString(NAME_KEY);
                                 String address = document.getString(ADDRESS_KEY);
+                                String event_date = document.getString(DATE_KEY);
                                 assert latlng != null;
                                 Double lat = latlng.get(LATITUDE_KEY);
                                 Double lng = latlng.get(LONGITUDE_KEY);
                                 LatLng location = new LatLng(lat, lng);
 
-                                // Add marker to the map
-                                mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(address));
-                                mMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
-                                mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                                if(convertDateAndCompare(event_date)){ // if date is greater than today show event else don't
+                                    // Add marker to the map
+                                    mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(address));
+                                    mMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
+                                    mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                                }
+                                else{
+                                    Log.d(TAG, "onComplete: Date was before today");
+                                }
+
                             }
 
                         } else {
