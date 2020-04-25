@@ -3,7 +3,6 @@ package com.example.kidseat.organizer_activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;

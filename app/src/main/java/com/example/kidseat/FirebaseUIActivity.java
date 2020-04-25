@@ -40,14 +40,12 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
     private EditText mEmailField;
     private EditText mPasswordField;
 
-    // [START declare_auth]
     public FirebaseAuth mAuth;
-    // [END declare_auth]
+
     FirebaseFirestore mFirestore;
     public DocumentReference userInfo;
 
     public ProgressBar mProgressBar;
-
 
 
     @Override
@@ -226,17 +224,21 @@ public class FirebaseUIActivity extends AppCompatActivity implements View.OnClic
                 }
             });
         } else {
-
             findViewById(R.id.emailPasswordButtons).setVisibility(View.VISIBLE);
         }
     }
 
     private void showAdminUI() {
-        startActivity(new Intent(FirebaseUIActivity.this, OrganizerMainActivity.class));
+        Intent intent = new Intent(FirebaseUIActivity.this, OrganizerMainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+
     }
 
     private void showRegularUI() {
-        startActivity(new Intent(FirebaseUIActivity.this, MainActivity.class));
+        Intent intent = new Intent(FirebaseUIActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     @Override

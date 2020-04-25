@@ -37,7 +37,6 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -229,7 +228,7 @@ public class ManageEventActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Calls uploadFile() which calls getStorageFileDownloadUri() which calls createEvent()
+                // Calls uploadFile() which calls getStorageFileDownloadUri() which calls updateEvent()
                 uploadFile();
             }
         });
@@ -292,7 +291,7 @@ public class ManageEventActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     stringUri = Objects.requireNonNull(task.getResult()).toString();
                 }
-                createEvent();
+                updateEvent();
             }
         });
     }
@@ -323,8 +322,8 @@ public class ManageEventActivity extends AppCompatActivity {
             // Show the progress of the upload
             ;
         } else {
-            // Notify user that no image is selected and directly call createEvent()
-            createEvent();
+            // Notify user that no image is selected and directly call updateEvent()
+            updateEvent();
             Toast.makeText(this, "No Image Selected", Toast.LENGTH_SHORT).show();
         }
 
@@ -347,14 +346,13 @@ public class ManageEventActivity extends AppCompatActivity {
         }
     }
 
-    private void createEvent() {
+    private void updateEvent() {
 
         String etNameText = etName.getText().toString();
         String etDateText = etDate.getText().toString();
         String etTimeText = etTime.getText().toString();
         String etMealTypeText = etMealType.getText().toString();
         String etDetailsText = etDetails.getText().toString();
-
 
         placeAddress = (placeAddress == null) ? "" : placeAddress;
         stringUri = (stringUri == null) ? "" : stringUri;
@@ -390,21 +388,6 @@ public class ManageEventActivity extends AppCompatActivity {
                     }
                 });
 
-//        mFirestore.collection("events")
-//                .add(eventToSave)
-//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Toast.makeText(ManageEventActivity.this, "Event has been created!", Toast.LENGTH_SHORT).show();
-//                        Log.d(TAG, "Event has been saved!");
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(ManageEventActivity.this, "Failed to create event", Toast.LENGTH_SHORT).show();
-//                Log.w(TAG, "Event was not saved!", e);
-//            }
-//        });
         progBar.setVisibility(ProgressBar.INVISIBLE);
     }
 }

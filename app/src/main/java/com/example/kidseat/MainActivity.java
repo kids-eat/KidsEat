@@ -74,11 +74,10 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_sign_out:
                 mAuth.signOut();
-                startActivity(new Intent(MainActivity.this, FirebaseUIActivity.class));
+                Intent i = new Intent(MainActivity.this, FirebaseUIActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
                 return true;
-//            case R.id.help:
-//                showHelp();
-//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

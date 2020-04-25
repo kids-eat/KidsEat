@@ -2,6 +2,7 @@ package com.example.kidseat.organizer_activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -81,6 +82,7 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
         initFirestore();
         initRecyclerView();
 
+
     }
 
     private void initFirestore() {
@@ -151,9 +153,10 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
                 this.startActivity(intent);
                 return true;
             case R.id.action_sign_out:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(OrganizerMainActivity.this, FirebaseUIActivity.class));
-                finish();
+                mAuth.signOut();
+                Intent i = new Intent(OrganizerMainActivity.this, FirebaseUIActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
