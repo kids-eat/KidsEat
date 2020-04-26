@@ -15,18 +15,26 @@ Kids Eat is a mobile app that notifies the local community of the locations and 
 ### App Evaluation
 
 - **Category:**  Maps
-- **Mobile:** Android Mobile Application. Uses Java, Android Studio, Google Maps API, and Firebase.
+- **Mobile:** Android Mobile Application; Uses Java, Android Studio, Firebase Firestore, Storage, Authentication, Google Maps API, and Places API.
 - **Story:** Grow Appalachia is a non-profit organization located in Berea, KY, with a mission to combat food insecurity and malnutrition in the Appalachian region. Berea is home for 15,000 people, 30% of whom live below the poverty line while the national average rate for poverty is 12%. To address the problem, Grow Appalachia started the Berea Kids Eat program in a partnership with Berea College and the United States Department of Agriculture (USDA). Berea Kids Eat aims to fight childhood hunger and food insecurity within the town of Berea. The program provides free lunch and breakfast to youths aged 18 or less, especially during the summer break period when the food budget of families increases. 
 - **Problem:** The organization's problem is the lack of a platform was facing an issue of   problems with notifying families of the locations of the programs they have. Kids Eat mobile application allows Berea Kids Eat program to have a centralized platform for notifying families of the location and details of their events.
 - **Market:** 30% of Berea, Kentucky population who live under the poverty line.
 - **Habit:** Users can see a detailed description of events posted by Berea Kids Eat and a visual representation of nearest food locations on an interactive map. The app will also send notifications to the user notifying them of the newest events posted. 
 - **Scope:** 
 
-**First stage:**  provide the Android application to Berea Kids Eat and expect it to be used by nearly 4,000 people in Berea, Kentucky. 
+**First stage:**  provide the Android application to Berea Kids Eat organization and expect it to be used by nearly 4,000 people in Berea, Kentucky. 
 
 **Second Stage:** develop an iOS version of the app.
 
 **Third Stage:**  propose the project to United States Department of Agriculture (USDA) for it to be used across partner USDA summer meal programs nationally.
+
+## Installation Guide
+The app can be installed and tested in 5 steps:
+1. Install [Android Studio](https://developer.android.com/studio) on your machine.
+2. Create an [Android Virtual Device (AVD)](https://developer.android.com/studio/run/managing-avds) in your Android Studio.
+3. Clone the Kids Eat repo to your local machine.
+4. Open the cloned local project in Android Studio.
+5. Run the app.
 
 ## Product Spec
 ### Video Walkthrough
@@ -44,17 +52,20 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 **Required Must-have Stories**
 
+- [x] App Authentication system allows both admin and regular users to use the same app to manage and view events.
+- [x] User can sign up and create an account and by default will become a regular user, i.e. not admin.
+- [x] User can sign in and out as a regular user.
 - [x] User can view the list of latest 20 events posted on Kids Eat.
-- [x] User can pull to refresh the last 20 events posted on Kids Eat.
+- [x] User can pull to refresh the latest 20 events posted on Kids Eat.
 - [x] User can see details of each event in a separate activity.
-- [x] The user can switch between 2 tabs: viewing list of all events (feed view) and location pins on a map for each event (map view) using fragments and a Bottom Navigation View.
-- [x] User can sign in and out.
-- [x] Admin/Organizer can view a separate view of list of events.
-- [x] Admin/Organizer can add events using a form.
+- [x] The user can switch between 2 tabs: viewing list of all events (feed view) and location markers on a map for each event (map view) using fragments and a Bottom Navigation View.
+- [x] User can see location markers of only upcoming events on a map, i.e. past events are automatically removed. 
+- [x] Admin/Organizer can sign in and out as admin.
+- [x] Admin/Organizer can view a list of events.
+- [x] Admin/Organizer can create events using a form.
+- [x] Admin/Organizer can upload images and search for locations using Places API.
 - [x] Admin/Organizer can update previously created events. 
-- [x] Authentication users.
-- [x] Show different UI depending on user privileges: admin or regular user.
-- [x] User can see location pins of latest events on a map. 
+
 
 **Optional Nice-to-have Stories**
 
