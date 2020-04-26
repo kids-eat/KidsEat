@@ -2,11 +2,12 @@
 
 ## Table of Contents
 1. [Overview](#Overview)
-2. [Product Spec](#Product-Spec)
+2. [Installation Guide](#Installation-Guide)
+3. [Product Spec](#Product-Spec)
    * [Video Walkthrough](#Video-Walkthrough)
-3. [Wireframes](#Wireframes)
-4. [Schema](#Schema)
-5. [License](#License)
+4. [Wireframes](#Wireframes)
+5. [Schema](#Schema)
+6. [License](#License)
 
 ## Overview
 ### Description
