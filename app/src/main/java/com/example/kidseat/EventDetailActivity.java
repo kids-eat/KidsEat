@@ -39,6 +39,7 @@ public class EventDetailActivity extends AppCompatActivity {
     TextView tvTime;
     TextView tvDescription;
     ImageView ivImage;
+    TextView tvMealType;
 
     public EventDetailActivity(Context context) {
         this.context = context;
@@ -57,6 +58,7 @@ public class EventDetailActivity extends AppCompatActivity {
         tvTime = findViewById(R.id.tvTime);
         tvAddress = findViewById(R.id.tvAddress);
         tvDescription = findViewById(R.id.tvDescription);
+        tvMealType = findViewById(R.id.tvMealType);
 
         dbFirestore = FirebaseFirestore.getInstance();
 
@@ -80,6 +82,7 @@ public class EventDetailActivity extends AppCompatActivity {
                             tvTime.setText(documentSnapshot.getString("time"));
                             tvAddress.setText(documentSnapshot.getString("address"));
                             tvDescription.setText(documentSnapshot.getString("description"));
+                            tvMealType.setText((documentSnapshot.getString("meal_type")));
 
                             String image = documentSnapshot.getString("image");
                             if (image != null) {

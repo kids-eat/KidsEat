@@ -12,4 +12,5 @@
     <string name="emailpassword_title_text">Welcome!</string>
     <string name="logo">logo</string>
     <string name="add_event">add_event</string>
+    <string name="meal_type">Meal Type</string>
 </resources>
