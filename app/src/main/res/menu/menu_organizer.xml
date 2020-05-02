@@ -4,15 +4,16 @@
 
     <item
         android:id="@+id/action_sign_out"
+        android:iconTint="#D14A4A"
         android:title="@string/sign_out"
-        android:visible="true"/>
+        android:visible="true" />
 
     <item
         android:id="@+id/action_add_event"
-        android:icon="@android:drawable/ic_input_add"
+        android:icon="@drawable/ic_add_black_25dp"
         android:iconTint="#FFFFFF"
-        app:showAsAction="always"
-        android:title="@string/add_event" />
+        android:title="@string/add_event"
+        app:showAsAction="always" />
 
 
 </menu>
