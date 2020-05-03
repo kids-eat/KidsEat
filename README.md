@@ -43,10 +43,10 @@ The app can be installed and tested in 5 steps:
 Here's a walkthrough of implemented user stories in Sprint 4:
 
 #### User View: 
-<img src='https://github.com/Kids-Eat/KidsEat/blob/master/appDemo4.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/Kids-Eat/KidsEat/blob/master/app_demos/appDemo4.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 #### Admin View: 
-<img src='https://github.com/Kids-Eat/KidsEat/blob/master/appDemo5.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/Kids-Eat/KidsEat/blob/master/app_demos/appDemo5.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ### User Stories (Must-have and Optional)
