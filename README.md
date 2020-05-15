@@ -11,7 +11,7 @@
 
 ## Overview
 ### Description
-Kids Eat is a mobile app that notifies the local community of the locations and times of free meal service events organized by the Berea Kids Eat initiative.
+Kids Eat is an Android app that notifies over 4,000 low-income local community members of the locations and times of free sites organized by the non-profit Berea Kids Eat. The app also serves as a centralized platform for the organization to manage all of its events.
 
 ### App Evaluation
 
