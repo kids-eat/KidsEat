@@ -15,11 +15,10 @@ Kids Eat is an Android app that notifies over 4,000 low-income local community m
 
 ### App Evaluation
 
-- **Category:**  Maps
-- **Mobile:** Android Mobile Application; Uses Java, Android Studio, Firebase Firestore, Storage, Authentication, Google Maps API, and Places API.
+- **Mobile:** Android Mobile Application; Uses Java, Android Studio, Cloud Firestore Database, Cloud Storage, Firebase Authentication, Google Maps API, and Places API.
 - **Story:** Grow Appalachia is a non-profit organization located in Berea, KY, with a mission to combat food insecurity and malnutrition in the Appalachian region. Berea is home for 15,000 people, 30% of whom live below the poverty line while the national average rate for poverty is 12%. To address the problem, Grow Appalachia started the Berea Kids Eat program in a partnership with Berea College and the United States Department of Agriculture (USDA). Berea Kids Eat aims to fight childhood hunger and food insecurity within the town of Berea. The program provides free lunch and breakfast to youths aged 18 or less, especially during the summer break period when the food budget of families increases. 
 - **Problem:** The organization was facing difficulties in accurately notifying families of the locations and times of their programs and meal distribution sites. Kids Eat mobile application allows Berea Kids Eat program to have a centralized platform for notifying families of the location and details of their events.
-- **Market:** 30% of Berea, Kentucky population who live under the poverty line.
+- **Market:** 30% of Berea, Kentucky population who live below the poverty line.
 - **Habit:** Users can see a detailed description of events posted by Berea Kids Eat and a visual representation of nearest food locations on an interactive map. The app will also send notifications to the user notifying them of the newest events posted. 
 - **Scope:** 
 
@@ -27,7 +26,7 @@ Kids Eat is an Android app that notifies over 4,000 low-income local community m
 
 **Second Stage:** develop an iOS version of the app.
 
-**Third Stage:**  propose the project to United States Department of Agriculture (USDA) for it to be used across partner USDA summer meal programs nationally.
+**Third Stage:**  propose the project to United States Department of Agriculture (USDA) for it to be used across partner USDA Summer Food Service Programs nationally.
 
 ## Installation Guide
 The app can be installed and tested in 5 steps:
@@ -42,10 +41,10 @@ The app can be installed and tested in 5 steps:
 
 Here's a walkthrough of implemented user stories in Sprint 4:
 
-#### User View: 
+#### User View (How users access the information about meal sites): 
 <img src='https://github.com/Kids-Eat/KidsEat/blob/master/app_demos/appDemo4.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-#### Admin View: 
+#### Admin View (How organizations manage their events): 
 <img src='https://github.com/Kids-Eat/KidsEat/blob/master/app_demos/appDemo5.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
@@ -85,16 +84,11 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
   * Allow users to enable/disable notifications. (BONUS)
 ### Navigation
 
-**Tab Navigation** (Tab to Screen)
-
-* Tab Navigation
-* Flow Navigation
-
-**Flow Navigation** (Screen to Screen)
+**Tab and Flow Navigation**
 
 * Tab Navigation 
    * Events list 
-   * Map
+   * Map view
 * Flow Navigation
    * Events list
      => Navigation to Event Details
