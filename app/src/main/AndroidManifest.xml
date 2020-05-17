@@ -31,7 +31,7 @@
             android:value="@string/google_maps_key" /> <!-- <activity -->
         <activity android:name=".organizer_activities.AddEventActivity" />
         <activity android:name=".organizer_activities.OrganizerMainActivity" />
-        <activity android:name=".FirebaseUIActivity" />
+        <activity android:name=".LoginActivity" />
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/SplashTheme">

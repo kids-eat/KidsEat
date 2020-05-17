@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<VH>
         implements EventListener<QuerySnapshot> {
+    // Listens to any changes in the database in real-time
 
     private static final String TAG = "FirestoreAdapter";
 
@@ -40,7 +41,6 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
             registration.remove();
             registration = null;
         }
-
         allEvents.clear();
         notifyDataSetChanged();
     }
@@ -58,10 +58,8 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
         startListening();
     }
 
-
     @Override
-    public void onEvent(QuerySnapshot documentSnapshots,
-                        FirebaseFirestoreException e) {
+    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
         // Handle errors
         if (e != null) {
@@ -71,25 +69,18 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
 
         // Dispatch the event
         for (DocumentChange change : documentSnapshots.getDocumentChanges()) {
-            // Snapshot of the changed document
-            DocumentSnapshot snapshot = change.getDocument();
-
             switch (change.getType()) {
                 case ADDED:
                     onDocumentAdded(change);
-
                     break;
                 case MODIFIED:
                     onDocumentModified(change);
-
                     break;
                 case REMOVED:
                     onDocumentRemoved(change);
                     break;
             }
         }
-
-
         onDataChanged();
     }
 
@@ -121,12 +112,9 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
     public int getItemCount() {
         return allEvents.size();
     }
-
     protected DocumentSnapshot getSnapshot(int index) {
         return allEvents.get(index);
     }
-
-    protected void onError(FirebaseFirestoreException e) {};
-
+    protected void onError(FirebaseFirestoreException e) {}
     protected void onDataChanged() {}
 }

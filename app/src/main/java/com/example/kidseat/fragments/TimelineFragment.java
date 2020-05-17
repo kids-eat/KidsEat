@@ -27,26 +27,20 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.functions.FirebaseFunctions;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class TimelineFragment extends Fragment implements EventsAdapter.OnEventSelectedListener  {
 
     private static final String TAG = "TimelineFragment";
     private static int LIMIT = 20;
-
-    private FirebaseFunctions mFunctions;
-
-    LinearLayoutManager layoutManager;
-
-    private RecyclerView rvEvents;
-    private SwipeRefreshLayout swipeContainer;
-    private BottomNavigationView bottomNavigationView;
+    public static final String CREATED_AT_KEY = "created_at";
 
     private FirebaseFirestore dbFirestore;
     private Query query;
 
-    EventsAdapter adapter;
+    private LinearLayoutManager layoutManager;
+    private RecyclerView rvEvents;
+    private SwipeRefreshLayout swipeContainer;
+    private EventsAdapter adapter;
 
     public TimelineFragment() {
         // Required empty public constructor
@@ -65,14 +59,12 @@ public class TimelineFragment extends Fragment implements EventsAdapter.OnEventS
 
         rvEvents = view.findViewById(R.id.rvEvents);
         swipeContainer = view.findViewById(R.id.swipeContainer);
-        bottomNavigationView = view.findViewById(R.id.bottomNavigation);
 
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 Log.i(TAG, "fetching new data");
-
                 adapter.setQuery(query);
                 swipeContainer.setRefreshing(false);
             }
@@ -99,10 +91,9 @@ public class TimelineFragment extends Fragment implements EventsAdapter.OnEventS
 
         // Get latest 20 events
         query = dbFirestore.collection("events")
-                .orderBy("created_at", Query.Direction.DESCENDING)
+                .orderBy(CREATED_AT_KEY, Query.Direction.DESCENDING)
                 .limit(LIMIT);
     }
-
 
     private void initRecyclerView() {
         if (query == null) {
@@ -118,31 +109,25 @@ public class TimelineFragment extends Fragment implements EventsAdapter.OnEventS
                     rvEvents.setVisibility(View.GONE);
                 } else {
                     rvEvents.setVisibility(View.VISIBLE);
-
                 }
             }
 
             @Override
             protected void onError(FirebaseFirestoreException e) {
-                // Show a snackbar on errors
-                Toast.makeText(getContext(), "Error: check logs for info.", Toast.LENGTH_SHORT).show();
+                // Show a message on errors
+                Toast.makeText(getContext(), "Error occurred", Toast.LENGTH_SHORT).show();
             }
         };
-
         rvEvents.setLayoutManager(layoutManager);
         rvEvents.setAdapter(adapter);
-
     }
-
 
     @Override
     public void onStart() {
         super.onStart();
-
         // Start listening for Firestore updates
         if (adapter != null) {
             adapter.startListening();
-
         }
     }
 
@@ -151,18 +136,16 @@ public class TimelineFragment extends Fragment implements EventsAdapter.OnEventS
         super.onStop();
         if (adapter != null) {
             adapter.stopListening();
-
         }
     }
 
     @Override
     public void onEventSelected(DocumentSnapshot event) {
-        // Go to the details page for the selected restaurant
+        // Go to the details page for the selected event
         Intent i = new Intent(getContext(), EventDetailActivity.class);
         i.putExtra(EventDetailActivity.EVENT_ID, event.getId());
         Log.i(TAG, "Got event ID: " + event.getId());
         startActivity(i);
     }
-
 
 }

@@ -23,15 +23,12 @@ import com.google.firebase.firestore.Query;
 
 
 public class EventsAdapter extends FirestoreAdapter<EventsAdapter.ViewHolder> {
-
+    // Populates item event
     public interface OnEventSelectedListener {
-
         void onEventSelected(DocumentSnapshot event);
-
     }
 
     private OnEventSelectedListener mListener;
-
 
     public EventsAdapter(Query query, OnEventSelectedListener listener) {
         super(query);
@@ -42,14 +39,13 @@ public class EventsAdapter extends FirestoreAdapter<EventsAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new ViewHolder(inflater.inflate(R.layout.item_event, parent, false));
+        return new ViewHolder(inflater.inflate(R.layout.item_event, parent, false));  // ViewHolder holds the reference to the id of the view resource (and place of item event)
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(getSnapshot(position), mListener);
     }
-
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -59,9 +55,9 @@ public class EventsAdapter extends FirestoreAdapter<EventsAdapter.ViewHolder> {
         TextView tvEventTime;
         ImageView ivItemImage;
 
-
         public ViewHolder(View itemView) {
             super(itemView);
+            // Access Item Event UI widgets
             tvEventAddress = itemView.findViewById(R.id.tvEventAddress);
             tvEventName = itemView.findViewById(R.id.tvEventName);
             tvEventDate = itemView.findViewById(R.id.tvDate);
@@ -71,9 +67,8 @@ public class EventsAdapter extends FirestoreAdapter<EventsAdapter.ViewHolder> {
 
         public void bind(final DocumentSnapshot snapshot,
                          final OnEventSelectedListener listener) {
-
-            Event event = snapshot.toObject(Event.class);
-            Resources resources = itemView.getResources();
+            // bind each piece of data to its spot on item event
+            Event event = snapshot.toObject(Event.class);   // Event model
 
             tvEventName.setText(event.getName());
             tvEventDate.setText(event.getDate());
@@ -81,16 +76,14 @@ public class EventsAdapter extends FirestoreAdapter<EventsAdapter.ViewHolder> {
             tvEventAddress.setText(event.getAddress());
 
             // Using glide library to display an image
-            Glide.with(ivItemImage.getContext())
-                    .load(event.getImage())
-                    .into(ivItemImage);
+            Glide.with(ivItemImage.getContext()).load(event.getImage()).into(ivItemImage);
 
-            // Click listener
+            // On Click listener
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
-                        listener.onEventSelected(snapshot);
+                        listener.onEventSelected(snapshot);  // passes Document Snapshot to OrganizerMainActivity and TimelineFragment
                     }
                 }
             });

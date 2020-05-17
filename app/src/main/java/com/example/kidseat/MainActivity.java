@@ -21,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    final FragmentManager fragmentManager = getSupportFragmentManager();
-    private BottomNavigationView bottomNavigationView;
+    public BottomNavigationView bottomNavigationView;
     public FirebaseAuth mAuth;
+    final FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +40,6 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 // use switch to select the fragments
                 switch (item.getItemId()) {
-                    case R.id.action_list:
-                        fragment = new TimelineFragment();
-                        break;
                     case R.id.action_map:
                         fragment = new MapFragment();
                         break;
@@ -55,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
         // Set default tab selection to List View
         bottomNavigationView.setSelectedItemId(R.id.action_list);
 
@@ -63,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Create the menu on action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
@@ -70,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
+        // Handle item selection from the menu
         switch (item.getItemId()) {
             case R.id.action_sign_out:
                 mAuth.signOut();
-                Intent i = new Intent(MainActivity.this, FirebaseUIActivity.class);
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
                 return true;
@@ -82,6 +79,5 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 }

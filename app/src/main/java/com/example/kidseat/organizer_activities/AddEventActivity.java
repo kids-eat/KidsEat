@@ -37,7 +37,6 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -55,6 +54,8 @@ import java.util.Objects;
 
 
 public class AddEventActivity extends AppCompatActivity {
+
+    // Event document fields
     public static final String NAME_KEY = "name";
     public static final String DATE_KEY = "date";
     public static final String RAW_DATE_KEY = "raw_date";
@@ -69,11 +70,9 @@ public class AddEventActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    public static final String EVENT_ID = "event_id";
     public static final String TAG = "AddEventActivity";
-    private static Context context;
 
-    FirebaseFirestore mFirestore;
+    FirebaseFirestore dbFirestore;
     StorageReference mStorageRef;
 
     EditText etName;
@@ -82,7 +81,7 @@ public class AddEventActivity extends AppCompatActivity {
     String placeAddress;
     EditText etMealType;
     EditText etDetails;
-    String stringUri;  // download Uri of the image in the Cloud Storage
+    String stringUri;    // download Uri of the image in the Cloud Storage
     Button btnChooseImage;
     ImageView ivImage;
     Button btnSave;
@@ -95,13 +94,12 @@ public class AddEventActivity extends AppCompatActivity {
 
     private Uri imageUri;   // Uri of the local image
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
-        AddEventActivity.context = getApplicationContext();
 
+        // Access UI widgets
         etName = findViewById(R.id.etName);
         etDate = findViewById(R.id.etDate);
         etTime = findViewById(R.id.etTime);
@@ -112,8 +110,8 @@ public class AddEventActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         progBar = findViewById(R.id.progBar);
 
-        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
-        mFirestore = FirebaseFirestore.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");   // Connect to Cloud Storage
+        dbFirestore = FirebaseFirestore.getInstance();     // Connect to Cloud Firestore
 
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,17 +122,17 @@ public class AddEventActivity extends AppCompatActivity {
                 int year = cldr.get(Calendar.YEAR);
                 // date datePickerDialog dialog
                 datePickerDialog = new DatePickerDialog(AddEventActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                // stores the date of the event in "MM/DD/YYYY" format
-                                rawDate = (monthOfYear+1) + "/" + dayOfMonth + "/" + year;
-                                // format the date to "MMM DD, YYYY" format
-                                String[] monthsArray = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-                                String formattedDate = monthsArray[monthOfYear] + " " + dayOfMonth + ", " + year;
-                                etDate.setText(formattedDate);
-                            }
-                        }, year, month, day);
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                            // stores the date of the event in "MM/DD/YYYY" format
+                            rawDate = (monthOfYear+1) + "/" + dayOfMonth + "/" + year;
+                            // format the date to "MMM DD, YYYY" format
+                            String[] monthsArray = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+                            String formattedDate = monthsArray[monthOfYear] + " " + dayOfMonth + ", " + year;
+                            etDate.setText(formattedDate);
+                        }
+                    }, year, month, day);
                 datePickerDialog.show();
             }
         });
@@ -147,23 +145,23 @@ public class AddEventActivity extends AppCompatActivity {
                 int minutes = cldr.get(Calendar.MINUTE);
                 // time picker dialog
                 timePickerDialog = new TimePickerDialog(AddEventActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                // Convert time from 24-hour format to 12-hour format
-                                String time = sHour + ":" + sMinute;
-                                SimpleDateFormat fmt = new SimpleDateFormat("HH:mm");
-                                Date date = null;
-                                try {
-                                    date = fmt.parse(time);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                SimpleDateFormat fmtOut = new SimpleDateFormat("hh:mm aa");
-                                String formattedTime = fmtOut.format(date);
-                                etTime.setText(formattedTime);
+                    new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                            // Convert time from 24-hour format to 12-hour format
+                            String time = sHour + ":" + sMinute;
+                            SimpleDateFormat fmt = new SimpleDateFormat("HH:mm");
+                            Date date = null;
+                            try {
+                                date = fmt.parse(time);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
                             }
-                        }, hour, minutes, false);
+                            SimpleDateFormat fmtOut = new SimpleDateFormat("hh:mm aa");
+                            String formattedTime = fmtOut.format(date);
+                            etTime.setText(formattedTime);
+                        }
+                    }, hour, minutes, false);
                 timePickerDialog.show();
             }
         });
@@ -185,8 +183,6 @@ public class AddEventActivity extends AppCompatActivity {
 
         // Initialize Places.
         Places.initialize(getApplicationContext(), "AIzaSyAQJ9uNb7Yf1hnYiUg8eLjgtUdchw59QVM");
-        // Create a new Places client instance.
-        PlacesClient placesClient = Places.createClient(this);
 
         //Initialize the AutocompleteSupportFragment.
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
@@ -200,7 +196,6 @@ public class AddEventActivity extends AppCompatActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-
                 // retrieve location address and name from the organizer
                 placeAddress = place.getAddress();
                 placeLocationID = place.getId();
@@ -209,14 +204,60 @@ public class AddEventActivity extends AppCompatActivity {
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
 
     }
 
+    private void openFileChooser() {
+        // opens local device to choose an image
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
+            imageUri = data.getData();
+            Toast.makeText(AddEventActivity.this, "Image Selected", Toast.LENGTH_SHORT).show();
+            Glide.with(this).load(imageUri).into(ivImage);     // Displays the selected image
+        }
+    }
+
+    private void uploadFile() {
+        // method to upload files to Firebase Storage
+        progBar.setVisibility(ProgressBar.VISIBLE);       // Show the progress of the upload
+        if(imageUri != null){
+            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
+            final UploadTask uploadTask;
+            uploadTask = fileReference.putFile(imageUri);
+            uploadTask
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    getStorageFileDownloadUri(uploadTask, fileReference);    // get and save the download url of the image
+                }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddEventActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        progBar.setVisibility(ProgressBar.INVISIBLE);
+                    }
+                });
+        } else {
+            // Notify user that no image is selected and directly call createEvent()
+            createEvent();
+            Toast.makeText(this, "No Image Selected", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private String getFileExtension(Uri uri){
+        // returns the extension of the Uri object
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(contentResolver.getType(uri));
@@ -236,60 +277,11 @@ public class AddEventActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
-                    stringUri = Objects.requireNonNull(task.getResult()).toString();
+                    stringUri = Objects.requireNonNull(task.getResult()).toString();   // save Download Uri as a string
                 }
                 createEvent();
             }
         });
-    }
-
-    private void uploadFile() {
-        // method to upload files to Firebase Storage
-        progBar.setVisibility(ProgressBar.VISIBLE);
-        if(imageUri != null){
-            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
-            final UploadTask uploadTask;
-            uploadTask = fileReference.putFile(imageUri);
-                    uploadTask
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // get and save the download url of the image
-                            getStorageFileDownloadUri(uploadTask, fileReference);
-
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(AddEventActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                            progBar.setVisibility(ProgressBar.INVISIBLE);
-                        }
-                    })
-                    // Show the progress of the upload
-                    ;
-        } else {
-            // Notify user that no image is selected and directly call createEvent()
-            createEvent();
-            Toast.makeText(this, "No Image Selected", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void openFileChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
-            imageUri = data.getData();
-            Toast.makeText(AddEventActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-            Glide.with(this).load(imageUri).into(ivImage);
-        }
     }
 
     private void createEvent() {
@@ -299,7 +291,6 @@ public class AddEventActivity extends AppCompatActivity {
         String etTimeText = etTime.getText().toString();
         String etMealTypeText = etMealType.getText().toString();
         String etDetailsText = etDetails.getText().toString();
-
 
         placeAddress = (placeAddress == null) ? "" : placeAddress;
         stringUri = (stringUri == null) ? "" : stringUri;
@@ -318,7 +309,7 @@ public class AddEventActivity extends AppCompatActivity {
         eventToSave.put(RAW_DATE_KEY, rawDate);
         eventToSave.put(CREATED_AT_KEY, Timestamp.now());
 
-        mFirestore.collection("events")
+        dbFirestore.collection("events")
             .add(eventToSave)
             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
@@ -333,7 +324,7 @@ public class AddEventActivity extends AppCompatActivity {
                     Log.w(TAG, "Event was not saved!", e);
                 }
             });
-        progBar.setVisibility(ProgressBar.INVISIBLE);
+        progBar.setVisibility(ProgressBar.INVISIBLE);  // hide the progress bar after the event creation process
     }
 
 }

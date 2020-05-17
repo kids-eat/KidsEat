@@ -1,8 +1,6 @@
 package com.example.kidseat.organizer_activities;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,15 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-
-import com.example.kidseat.FirebaseUIActivity;
+import com.example.kidseat.LoginActivity;
 import com.example.kidseat.R;
 import com.example.kidseat.adapters.EventsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,19 +29,17 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
 
     private static final String TAG = "OrganizerMainActivity";
 
-    private static int LIMIT = 20;
+    public static int LIMIT = 20;
+    public static final String CREATED_AT_KEY = "created_at";
 
-    private FirebaseFirestore dbFirestore;
+    FirebaseFirestore dbFirestore;
     FirebaseAuth mAuth;
-
     private Query query;
 
     LinearLayoutManager layoutManager;
-
+    EventsAdapter adapter;
     private RecyclerView rvEvents;
     private SwipeRefreshLayout swipeContainer;
-
-    EventsAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +68,6 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
 
         layoutManager = new LinearLayoutManager(this);
 
-        mAuth = FirebaseAuth.getInstance();
         // Enable Firestore logging
         FirebaseFirestore.setLoggingEnabled(true);
 
@@ -82,14 +75,13 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
         initFirestore();
         initRecyclerView();
 
-
     }
 
     private void initFirestore() {
         dbFirestore = FirebaseFirestore.getInstance();
         // Get latest 20 events
         query = dbFirestore.collection("events")
-                .orderBy("created_at", Query.Direction.DESCENDING)
+                .orderBy(CREATED_AT_KEY, Query.Direction.DESCENDING)
                 .limit(LIMIT);
     }
 
@@ -110,14 +102,12 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
             }
             @Override
             protected void onError(FirebaseFirestoreException e) {
-                // Show a snackbar on errors
-                Toast.makeText(OrganizerMainActivity.this, "Error: check logs for info.", Toast.LENGTH_SHORT).show();
+                // Show a message on errors
+                Toast.makeText(OrganizerMainActivity.this, "Error occurred", Toast.LENGTH_SHORT).show();
             }
         };
-
         rvEvents.setLayoutManager(layoutManager);
         rvEvents.setAdapter(adapter);
-
     }
 
     @Override
@@ -139,6 +129,7 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Create the menu on action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_organizer, menu);
         return true;
@@ -148,13 +139,13 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.action_add_event: // goes to Add Event Activity when "plus" sign is clicked
+            case R.id.action_add_event:   // goes to Add Event Activity when "plus" sign is clicked
                 Intent intent = new Intent(OrganizerMainActivity.this, AddEventActivity.class);
                 this.startActivity(intent);
                 return true;
             case R.id.action_sign_out:
                 mAuth.signOut();
-                Intent i = new Intent(OrganizerMainActivity.this, FirebaseUIActivity.class);
+                Intent i = new Intent(OrganizerMainActivity.this, LoginActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
                 return true;
@@ -165,12 +156,11 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
 
     @Override
     public void onEventSelected(DocumentSnapshot event) {
-        // Go to the details page for the selected restaurant
+        // Go to the update event page for the selected event
         Intent i = new Intent(this, ManageEventActivity.class);
         i.putExtra(ManageEventActivity.EVENT_ID, event.getId());
         Log.i(TAG, "Got event ID: " + event.getId());
         startActivity(i);
     }
-
 
 }
