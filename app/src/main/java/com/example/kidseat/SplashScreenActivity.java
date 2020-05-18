@@ -22,6 +22,7 @@ import java.util.Objects;
 public class SplashScreenActivity extends Activity {
 
     private static final String TAG = "SplashScreenActivity";
+    public static final String IS_ADMIN_KEY = "isAdmin";
     public FirebaseAuth mAuth;
     public FirebaseFirestore dbFirestore;
 
@@ -51,7 +52,7 @@ public class SplashScreenActivity extends Activity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     if (documentSnapshot != null) {
-                        if(Objects.requireNonNull(documentSnapshot.getString("isAdmin")).equals("true")){
+                        if(Objects.requireNonNull(documentSnapshot.getString(IS_ADMIN_KEY)).equals("true")){
                             showAdminUI();     // Show admin UI if user is an admin
                         } else {
                             showRegularUI();   // Show user UI if user is a regular user

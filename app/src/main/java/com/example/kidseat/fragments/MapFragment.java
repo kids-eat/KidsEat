@@ -35,6 +35,7 @@ import java.util.Objects;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private static final String TAG = "MapFragment";
+
     // Event document fields
     private static final String NAME_KEY = "name";
     private static final String ADDRESS_KEY = "address";
