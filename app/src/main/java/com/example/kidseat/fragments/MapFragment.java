@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.kidseat.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,6 +46,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private float zoom;
+
+    private Boolean atLeastOneUpcomingEvent = false;  // track if there is an upcoming event (represented by a marker) on the map at all
 
     private FirebaseFirestore dbFirestore;
 
@@ -111,15 +114,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                 mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(address));
                                 mMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                                atLeastOneUpcomingEvent = true;
                             } else{
                                 Log.d(TAG, "onComplete: Date was before today");
                             }
+                        }
+                        if(!atLeastOneUpcomingEvent){
+                            Toast.makeText(getContext(), "No Upcoming Events!", Toast.LENGTH_SHORT).show();  // displays the message if there are no markers on the map
                         }
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 }
             });
+
     }
 
 }
