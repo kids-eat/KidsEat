@@ -182,7 +182,8 @@ public class AddEventActivity extends AppCompatActivity {
         });
 
         // Initialize Places.
-        Places.initialize(getApplicationContext(), "AIzaSyAQJ9uNb7Yf1hnYiUg8eLjgtUdchw59QVM");
+        String secretValue = getString(R.string.google_maps_api_key);
+        Places.initialize(getApplicationContext(), secretValue);
 
         //Initialize the AutocompleteSupportFragment.
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)

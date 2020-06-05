@@ -227,7 +227,9 @@ public class ManageEventActivity extends AppCompatActivity {
         });
 
         // Initialize Places.
-        Places.initialize(getApplicationContext(), "AIzaSyAQJ9uNb7Yf1hnYiUg8eLjgtUdchw59QVM");
+        String secretValue = getString(R.string.google_maps_api_key);
+        Log.i(TAG, "Secret Val " + secretValue);
+        Places.initialize(getApplicationContext(), secretValue);
 
         //Initialize the AutocompleteSupportFragment.
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
@@ -368,6 +370,7 @@ public class ManageEventActivity extends AppCompatActivity {
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(ManageEventActivity.this, "Successfully updated!", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    redirectMainPage();
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
@@ -378,5 +381,12 @@ public class ManageEventActivity extends AppCompatActivity {
             });
 
         progBar.setVisibility(ProgressBar.INVISIBLE);    // hide the progress bar after the event creation process
+    }
+
+    private void redirectMainPage(){
+        // Switches to admin Main Activity
+        Intent intent = new Intent(ManageEventActivity.this, OrganizerMainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);  // clears the stack (disables going back with back button)
+        startActivity(intent);
     }
 }

@@ -28,7 +28,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" /> <!-- <activity -->
+            android:value="@string/google_maps_api_key" /> <!-- <activity -->
         <activity android:name=".organizer_activities.AddEventActivity" />
         <activity android:name=".organizer_activities.OrganizerMainActivity" />
         <activity android:name=".LoginActivity" />
