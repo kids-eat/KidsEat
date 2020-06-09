@@ -72,26 +72,6 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 * User can receive push notifications in the background.
 * User can turn on/off notifications.
 
-### Screen Archetypes
-
-* Stream
-   * Create a list of events based on the data entered by Berea Kids Eat. 
-   * Createa a map that shows all the events locations. 
-* Detail
-   *  Each event is clickable and shows its details, such as event name, location and etc.
-
-* Settings
-  * Allow users to enable/disable notifications. (BONUS)
-### Navigation
-
-**Tab and Flow Navigation**
-
-* Tab Navigation 
-   * Events list 
-   * Map view
-* Flow Navigation
-   * Events list
-     => Navigation to Event Details
 
 ## Wireframes
 ![](https://i.imgur.com/CKhi2as.png)
@@ -101,139 +81,18 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ### Models
 #### Post
 
-   | Property      | Type     | Description |
-   | ------------- | -------- | ------------|
-   | name          | String   | name of the event |
-   | description   | String   | event details |
-   | image         | File     | image of event that organizer posts |
-   | date          | String   | date when the event will take place |
-   | time          | String   | time when the event will take place |
-   | address       | String   | address of the event |
+   | Property      | Type     | Description                            |
+   | ------------- | -------- | -------------------------------------- |
+   | name          | String   | name of the event                      |
+   | description   | String   | event details                          |
+   | image         | File     | image of event that organizer posts    |
+   | date          | String   | date when the event will take place    |
+   | time          | String   | time when the event will take place    |
+   | address       | String   | address of the event                   |
    | meal-type     | String   | the type of meal provided at the event |
-   | createdAt     | Timestamp| date when event is created |
-   | latlng        | Geopoint | latitude and longitude of event location |
+   | createdAt     | Timestamp| date when event is created             |
+   | latlng        | Geopoint | lat/long of event location             |
 
-### Networking
-#### List of network requests by screen
-
- - List View
-  - (Read/GET) Query all events
-    ```db.collection("events")
-        .addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-
-                List<String> events = new ArrayList<>();
-                for (QueryDocumentSnapshot doc : value) {
-                    if (doc.get("name") != null) {
-                        events.add(doc.getString("name"));
-                    }
-                }
-            }
-        });```
-  - Detail Activity Screen
-    - (Read/GET) Query all known attributes of the selected event
-      ```
-      DocumentReference docRef = db.collection("events").document(eventId);
-      docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-          @Override
-          public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-              if (task.isSuccessful()) {
-                  DocumentSnapshot document = task.getResult();
-                  if (document.exists()) {
-                      Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                  } else {
-                      Log.d(TAG, "No such document");
-                  }
-              } else {
-                  Log.d(TAG, "get failed with ", task.getException());
-              }
-          }
-      });
-
-      ```
-  - Map View
-    - (Read/GET) Query latlng for all the events in the database
-      ```
-      db.collection("events")
-        .addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-
-                List<String> events = new ArrayList<>();
-                for (QueryDocumentSnapshot doc : value) {
-                    if (doc.get("name") != null) {
-                        events.add(doc.getString("name"));
-                    }
-                }
-            }
-        });
-      ```
-  - Organizer View
-    - (Create/POST) Create a new event as a document in Cloud Firestore
-      ```Map<String, Object> data = new HashMap<>();
-          data.put(key, value)
-
-          db.collection("events")
-                  .add(data)
-                  .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                      @Override
-                      public void onSuccess(DocumentReference documentReference) {
-                          Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                      }
-                  })
-                  .addOnFailureListener(new OnFailureListener() {
-                      @Override
-                      public void onFailure(@NonNull Exception e) {
-                          Log.w(TAG, "Error adding document", e);
-                      }
-        });
-      ```
-    - (Update/PUT) Update information about an event
-      ```
-         DocumentReference washingtonRef = db.collection("events").document(eventId);
-         washingtonRef
-        .update("time", true)
-        .addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "DocumentSnapshot successfully updated!");
-            }
-        })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error updating document", e);
-            }
-        });
-        ```
-    - (Delete) Delete existing event
-      ```
-         db.collection("events").document(eventId)
-        .delete()
-        .addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "DocumentSnapshot successfully deleted!");
-            }
-        })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error deleting document", e);
-            }
-        });
-      ```
 ## License
 
     Copyright 2020 Kids Eat
