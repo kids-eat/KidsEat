@@ -88,6 +88,7 @@ public class ManageEventActivity extends AppCompatActivity {
     Button btnChooseImage;
     ImageView ivImage;
     Button btnSave;
+    Button btnRemove;
     String placeLocationID;
     LatLng latLng;
     String rawDate;        // stores the date of the event in "MM/DD/YYYY" format
@@ -112,6 +113,7 @@ public class ManageEventActivity extends AppCompatActivity {
         etDetails = findViewById(R.id.etDetails);
         btnChooseImage = findViewById(R.id.btnChooseImage);
         ivImage = findViewById(R.id.ivImage);
+        btnRemove = findViewById(R.id.btnRemove);
         btnSave = findViewById(R.id.btnSave);
         progBar = findViewById(R.id.progBar);
         final String currentAddressText = "Current Address: ";
@@ -215,6 +217,13 @@ public class ManageEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openFileChooser();
+            }
+        });
+
+        btnRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeEvent();
             }
         });
 
@@ -335,6 +344,24 @@ public class ManageEventActivity extends AppCompatActivity {
                 updateEvent();
             }
         });
+    }
+
+    private void removeEvent() {
+        // remove the event doc from the database
+        eventReference.delete()
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                    redirectMainPage();
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error deleting document", e);
+                }
+            });
     }
 
     private void updateEvent() {
