@@ -253,7 +253,6 @@ public class AddEventActivity extends AppCompatActivity {
         } else {
             // Notify user that no image is selected and directly call createEvent()
             createEvent();
-            Toast.makeText(this, "No Image Selected", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -317,6 +316,7 @@ public class AddEventActivity extends AppCompatActivity {
                 public void onSuccess(DocumentReference documentReference) {
                     Toast.makeText(AddEventActivity.this, "Event has been created!", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "Event has been saved!");
+                    redirectMainPage();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -326,6 +326,13 @@ public class AddEventActivity extends AppCompatActivity {
                 }
             });
         progBar.setVisibility(ProgressBar.INVISIBLE);  // hide the progress bar after the event creation process
+    }
+
+    private void redirectMainPage(){
+        // Switches to admin Main Activity
+        Intent intent = new Intent(AddEventActivity.this, OrganizerMainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);  // clears the stack (disables going back with back button)
+        startActivity(intent);
     }
 
 }
