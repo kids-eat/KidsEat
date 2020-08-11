@@ -85,7 +85,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Date _date = dateFormat.parse(date, pos);
         assert _date != null;
         String event_date = dateFormat.format(_date);
-        return event_date.compareTo(dateFormat.format(currentTime)) >= 0;  // if true show location marker else do not
+        // if event date is equal to or bigger than today's date, show location marker else do not
+        return event_date.compareTo(dateFormat.format(currentTime)) >= 0;
     }
 
     @Override
