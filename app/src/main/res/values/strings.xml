@@ -13,4 +13,8 @@
     <string name="logo">logo</string>
     <string name="add_event">add_event</string>
     <string name="meal_type">Meal Type</string>
+    <string name="remove_event_dialog_title">Are you sure you want to remove?</string>
+    <string name="remove_event_dialog_message">This action will remove the event from the database. It will no longer be visible.</string>
+    <string name="yes">Yes, remove</string>
+    <string name="cancel">Cancel</string>
 </resources>

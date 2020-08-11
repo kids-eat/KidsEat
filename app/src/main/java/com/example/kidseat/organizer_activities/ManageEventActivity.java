@@ -3,12 +3,14 @@ package com.example.kidseat.organizer_activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -54,7 +56,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ManageEventActivity extends AppCompatActivity {
+public class ManageEventActivity extends AppCompatActivity implements RemoveEventDialog.RemoveEventDialogListener {
 
     // Event document fields
     public static final String NAME_KEY = "name";
@@ -88,6 +90,7 @@ public class ManageEventActivity extends AppCompatActivity {
     Button btnChooseImage;
     ImageView ivImage;
     Button btnSave;
+    Button btnRemove;
     String placeLocationID;
     LatLng latLng;
     String rawDate;        // stores the date of the event in "MM/DD/YYYY" format
@@ -112,6 +115,7 @@ public class ManageEventActivity extends AppCompatActivity {
         etDetails = findViewById(R.id.etDetails);
         btnChooseImage = findViewById(R.id.btnChooseImage);
         ivImage = findViewById(R.id.ivImage);
+        btnRemove = findViewById(R.id.btnRemove);
         btnSave = findViewById(R.id.btnSave);
         progBar = findViewById(R.id.progBar);
         final String currentAddressText = "Current Address: ";
@@ -218,6 +222,14 @@ public class ManageEventActivity extends AppCompatActivity {
             }
         });
 
+        btnRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment dialog = new RemoveEventDialog();
+                dialog.show(getSupportFragmentManager(), "remove_event");
+            }
+        });
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -259,6 +271,20 @@ public class ManageEventActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    // The dialog fragment receives a reference to this Activity through the
+    // Fragment.onAttach() callback, which it uses to call the following methods
+    // defined by the RemoveEventDialog.RemoveEventDialogListener interface
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        // User touched the dialog's positive button
+        removeEvent();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        // User touched the dialog's negative button: Do Nothing
     }
 
     private void openFileChooser() {
@@ -335,6 +361,25 @@ public class ManageEventActivity extends AppCompatActivity {
                 updateEvent();
             }
         });
+    }
+
+    private void removeEvent() {
+        // remove the event doc from the database
+        eventReference.delete()
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                    Toast.makeText(ManageEventActivity.this, "Event Removed Successfully", Toast.LENGTH_SHORT).show();
+                    redirectMainPage();
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error deleting document", e);
+                }
+            });
     }
 
     private void updateEvent() {
