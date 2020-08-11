@@ -42,7 +42,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final String ADDRESS_KEY = "address";
     private static final String LATITUDE_KEY = "latitude";
     private static final String LONGITUDE_KEY = "longitude";
-    public static final String DATE_KEY = "date";
+    public static final String DATE_KEY = "raw_date";
 
     private GoogleMap mMap;
     private float zoom;
@@ -79,12 +79,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private static boolean convertDateAndCompare(String date) {
         // decides whether or not an event has passed
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
         ParsePosition pos = new ParsePosition(0);
         Date currentTime = Calendar.getInstance().getTime();
         Date _date = dateFormat.parse(date, pos);
         assert _date != null;
-        return _date.after(currentTime);  // if true show location marker else do not
+        String event_date = dateFormat.format(_date);
+        return event_date.compareTo(dateFormat.format(currentTime)) >= 0;  // if true show location marker else do not
     }
 
     @Override
@@ -116,7 +117,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
                                 atLeastOneUpcomingEvent = true;
                             } else{
-                                Log.d(TAG, "onComplete: Date was before today");
+                                Log.d(TAG, name + "Event: Date was before today. Event is not shown.");
                             }
                         }
                         if(!atLeastOneUpcomingEvent){
