@@ -1,5 +1,5 @@
 # KIDS EAT
-
+### Published on Google Play Store: https://play.google.com/store/apps/details?id=com.kidseat.kidseat
 ## Table of Contents
 1. [Overview](#Overview)
 2. [Installation Guide](#Installation-Guide)
