@@ -1,4 +1,4 @@
-package com.example.kidseat.organizer_activities;
+package com.kidseat.kidseat.organizer_activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.kidseat.LoginActivity;
-import com.example.kidseat.R;
-import com.example.kidseat.adapters.EventsAdapter;
+import com.kidseat.kidseat.LoginActivity;
+import com.kidseat.kidseat.R;
+import com.kidseat.kidseat.adapters.EventsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;

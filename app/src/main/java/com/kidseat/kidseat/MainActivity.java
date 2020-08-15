@@ -1,4 +1,4 @@
-package com.example.kidseat;
+package com.kidseat.kidseat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,8 +11,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.example.kidseat.fragments.MapFragment;
-import com.example.kidseat.fragments.TimelineFragment;
+import com.kidseat.kidseat.fragments.MapFragment;
+import com.kidseat.kidseat.fragments.TimelineFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 

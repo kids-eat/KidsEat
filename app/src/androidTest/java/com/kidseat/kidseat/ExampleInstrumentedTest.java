@@ -1,4 +1,4 @@
-package com.example.kidseat;
+package com.kidseat.kidseat;
 
 import android.content.Context;
 

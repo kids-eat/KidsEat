@@ -1,4 +1,4 @@
-package com.example.kidseat.fragments;
+package com.kidseat.kidseat.fragments;
 
 
 import android.content.Intent;
@@ -17,15 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.kidseat.EventDetailActivity;
-import com.example.kidseat.R;
-import com.example.kidseat.adapters.EventsAdapter;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.kidseat.kidseat.EventDetailActivity;
+import com.kidseat.kidseat.R;
+import com.kidseat.kidseat.adapters.EventsAdapter;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.functions.FirebaseFunctions;
 
 
 public class TimelineFragment extends Fragment implements EventsAdapter.OnEventSelectedListener  {

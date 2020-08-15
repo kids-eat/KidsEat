@@ -1,4 +1,4 @@
-package com.example.kidseat.models;
+package com.kidseat.kidseat.models;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.IgnoreExtraProperties;

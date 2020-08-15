@@ -1,4 +1,4 @@
-package com.example.kidseat.fragments;
+package com.kidseat.kidseat.fragments;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.kidseat.R;
+import com.kidseat.kidseat.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -59,6 +59,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbFirestore = FirebaseFirestore.getInstance();
+//        Log.i("-------debug log");
     }
 
     @Override

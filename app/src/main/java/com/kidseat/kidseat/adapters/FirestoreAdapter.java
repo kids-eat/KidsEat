@@ -1,4 +1,4 @@
-package com.example.kidseat.adapters;
+package com.kidseat.kidseat.adapters;
 
 import android.util.Log;
 

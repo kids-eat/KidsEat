@@ -1,8 +1,5 @@
-package com.example.kidseat.adapters;
+package com.kidseat.kidseat.adapters;
 
-import android.content.res.Resources;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.kidseat.R;
-import com.example.kidseat.models.Event;
+import com.kidseat.kidseat.R;
+import com.kidseat.kidseat.models.Event;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 

@@ -1,4 +1,4 @@
-package com.example.kidseat;
+package com.kidseat.kidseat;
 
 
 import android.content.Intent;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.kidseat.organizer_activities.OrganizerMainActivity;
+import com.kidseat.kidseat.organizer_activities.OrganizerMainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

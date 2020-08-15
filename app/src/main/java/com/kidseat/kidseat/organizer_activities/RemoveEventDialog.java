@@ -1,4 +1,4 @@
-package com.example.kidseat.organizer_activities;
+package com.kidseat.kidseat.organizer_activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 
-import com.example.kidseat.R;
+import com.kidseat.kidseat.R;
 
 public class RemoveEventDialog extends DialogFragment {
 
