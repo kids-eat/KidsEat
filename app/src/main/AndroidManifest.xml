@@ -16,12 +16,14 @@
         android:roundIcon="@drawable/kids_eat_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.kidseat.kidseat.organizer_activities.ManageEventActivity"></activity>
+        <activity android:name="com.kidseat.kidseat.organizer_activities.ManageEventActivity"
+                  android:parentActivityName=".organizer_activities.OrganizerMainActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_api_key" /> <!-- <activity -->
-        <activity android:name="com.kidseat.kidseat.organizer_activities.AddEventActivity" />
+        <activity android:name="com.kidseat.kidseat.organizer_activities.AddEventActivity"
+                  android:parentActivityName=".MainActivity"/>
         <activity android:name="com.kidseat.kidseat.organizer_activities.OrganizerMainActivity" />
         <activity android:name="com.kidseat.kidseat.LoginActivity" />
         <activity
@@ -39,7 +41,8 @@
         <activity
             android:name="com.kidseat.kidseat.MainActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name="com.kidseat.kidseat.EventDetailActivity" />
+        <activity android:name="com.kidseat.kidseat.EventDetailActivity"
+                  android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

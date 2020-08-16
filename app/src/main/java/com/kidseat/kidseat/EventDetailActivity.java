@@ -37,6 +37,7 @@ public class EventDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Access UI widgets
         ivImage = findViewById(R.id.ivImage);
@@ -64,6 +65,7 @@ public class EventDetailActivity extends AppCompatActivity {
                         if (documentSnapshot != null) {
                             // get the field values and set them to corresponding UI fields
                             tvName.setText(documentSnapshot.getString("name"));
+                            setTitle(documentSnapshot.getString("name"));
                             tvDate.setText(documentSnapshot.getString("date"));
                             tvTime.setText(documentSnapshot.getString("time"));
                             tvAddress.setText(documentSnapshot.getString("address"));
