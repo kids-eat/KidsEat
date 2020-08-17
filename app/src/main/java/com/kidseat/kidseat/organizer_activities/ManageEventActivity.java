@@ -103,6 +103,7 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_event);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         etName = findViewById(R.id.etName);
         etDate = findViewById(R.id.etDate);
@@ -136,6 +137,7 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
                     if (documentSnapshot != null) {
                         // get the field values
                         etName.setText(documentSnapshot.getString(NAME_KEY));
+                        setTitle(documentSnapshot.getString(NAME_KEY));
                         etDate.setText(documentSnapshot.getString(DATE_KEY));
                         etTime.setText(documentSnapshot.getString(TIME_KEY));
                         placeAddress = documentSnapshot.getString(ADDRESS_KEY);
