@@ -11,19 +11,30 @@ const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access Cloud Firestore.
 const admin = require('firebase-admin');
-admin.initializeApp();
+admin.initializeApp(functions.config().firebase);
 
-exports.createUser = functions.firestore
+exports.sendNotification = functions.firestore
     .document('events/{eventId}')
-    .onCreate((snap, context) => {
+    .onCreate(async (snap, context) => {
       // Get an object representing the document
       // e.g. {'name': 'Marie', 'age': 66}
-      const newValue = snap.data();
+      const newDocument = snap.data();
 
       // access a particular field as you would any JS property
-      const name = newValue.name;
+      let name = newDocument.name;
+      let content = "Notification content";
 
-      // perform desired operations ...
+      let message = {
+        notification: {
+          title: name,
+          body: content
+        },
+        topic: "New Event",
+      };
+
+      let response = await admin.messaging().send(message);
+      console.log(response);
+
 
     });
 
