@@ -90,10 +90,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success");
                     FirebaseUser user = mAuth.getCurrentUser();
-
-                    // Create a hashmap of user admin privileges to add to 'users' collection in Firestore
                     assert user != null;
                     String user_Id = user.getUid();
+                    // Create a hashmap of user admin privileges to add to 'users' collection in Firestore
                     Map<String, Object> userAcessLevel = new HashMap<String, Object>();
                     userAcessLevel.put(IS_ADMIN_KEY, "false");     // By default, a new user is not an admin
 
