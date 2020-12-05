@@ -79,7 +79,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!validateForm()) {
             return;
         }
-
         showProgressBar();    // show the progress before the account formation process
 
         // Create user with email using the Firebase Auth's method
@@ -93,12 +92,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     assert user != null;
                     String user_Id = user.getUid();
                     // Create a hashmap of user admin privileges to add to 'users' collection in Firestore
-                    Map<String, Object> userAcessLevel = new HashMap<String, Object>();
-                    userAcessLevel.put(IS_ADMIN_KEY, "false");     // By default, a new user is not an admin
+                    Map<String, Object> userAccessLevel = new HashMap<String, Object>();
+                    userAccessLevel.put(IS_ADMIN_KEY, "false");     // By default, a new user is not an admin
 
                     // Add user admin privileges to 'users' collection in Firestore
-                    dbFirestore.collection("users").document(user_Id).set(userAcessLevel);
-                    generateFCMToken(user);
+                    dbFirestore.collection("users").document(user_Id).set(userAccessLevel);
+                    generateAndSaveFCMToken(user);    // generate new token when creating new account
                     updateUI(user);
 
                 } else {
@@ -128,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithEmail:success");
                     FirebaseUser user = mAuth.getCurrentUser();
-                    generateFCMToken(user);
+                    generateAndSaveFCMToken(user);   // generate new token when signing in
                     updateUI(user);
 
                 } else {
@@ -163,8 +162,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return valid;
     }
 
-    private void generateFCMToken(final FirebaseUser user) {
-        // Generates the FCM registration token and stores in a document associated with the user
+    private void generateAndSaveFCMToken(final FirebaseUser user) {
+        // Generates the FCM (Firebase Cloud Messaging) registration token and stores in a document associated with the user
 
         FirebaseMessaging.getInstance().getToken()
             .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -174,11 +173,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Log.w(TAG, "Fetching FCM registration token failed", task.getException());
                         return;
                     }
-
                     String token = task.getResult();  // Get new FCM registration token
 
-                    Log.d(TAG, token);
-//                    Toast.makeText(LoginActivity.this, token, Toast.LENGTH_LONG).show();
                     Map<String, Object> userToken = new HashMap<String, Object>();
                     userToken.put(FCM_TOKEN, token);
                     dbFirestore.collection("users").document(user.getUid()).update(userToken);  // Add token to Firestore
