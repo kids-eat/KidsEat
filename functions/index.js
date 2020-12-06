@@ -5,40 +5,35 @@ const functions = require('firebase-functions');
 // The Firebase Admin SDK to access Cloud Firestore.
 const admin = require('firebase-admin');
 admin.initializeApp();
-let db = admin.firestore();
+const db = admin.firestore();
 let allTokens = [];
 
-async function getAll() {
-
+async function getAllTokens() {
+  // retrieves all the fcm tokens from the 'users' collection
+  
   const users = db.collection('users');
   const snapshot = await users.get();
   snapshot.forEach(doc => {
-    if (doc.data().fcmToken) {
-      console.log("Token:", doc.data().fcmToken);
-      allTokens.push(doc.data().fcmToken);
-      console.log("tokens in getAll", allTokens);
-    } else {
-      console.log("No Token!");
-    }
+    let fcmToken = doc.data().fcmToken;
+    if (fcmToken && !allTokens.includes(fcmToken)) {
+      allTokens.push(fcmToken);
+    } 
+    // else {
+    //   console.log("No Token!");}
   });
-
 }
 
 
-exports.sendNotificationToToken = functions.firestore
-  .document('events/{eventId}')
+exports.sendNotificationToToken = functions.firestore.document('events/{eventId}')
   .onCreate(async (snap, context) => {
     const newDocument = snap.data();
-
-    // access a particular field as you would any JS property
-    let name = newDocument.name;
-    let content = "Notification content";
-    await getAll();
-    console.log("tokens in sendNotificationToken", allTokens);
-
+    // Access event information needed for the notification payload
+    let title = newDocument.name;
+    let content = "On " + newDocument.date + " at " + newDocument.address;
+    await getAllTokens();
     let message = {
       notification: {
-        title: name,
+        title: title,
         body: content
       },
       tokens: allTokens,
@@ -50,26 +45,3 @@ exports.sendNotificationToToken = functions.firestore
   });
 
 
-// exports.sendNotification = functions.firestore
-//   .document('events/{eventId}')
-//   .onCreate(async (snap, context) => {
-//     // Get an object representing the document
-//     // e.g. {'name': 'Marie', 'age': 66}
-//     const newDocument = snap.data();
-
-//     // access a particular field as you would any JS property
-//     let name = newDocument.name;
-//     let content = "Notification content";
-
-//     let message = {
-//       notification: {
-//         title: name,
-//         body: content
-//       },
-//       topic: "New Event",
-//     };
-
-//     let response = await admin.messaging().send(message);
-//     console.log(response);
-
-//   });
