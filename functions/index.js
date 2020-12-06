@@ -18,8 +18,6 @@ async function getAllTokens() {
     if (fcmToken && !allTokens.includes(fcmToken)) {
       allTokens.push(fcmToken);
     } 
-    // else {
-    //   console.log("No Token!");}
   });
 }
 

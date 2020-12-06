@@ -97,7 +97,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     // Add user admin privileges to 'users' collection in Firestore
                     dbFirestore.collection("users").document(user_Id).set(userAccessLevel);
-//                    generateAndSaveFCMToken(user);    // generate new token when creating new account
                     updateUI(user);
 
                 } else {
@@ -127,7 +126,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithEmail:success");
                     FirebaseUser user = mAuth.getCurrentUser();
-//                    generateAndSaveFCMToken(user);   // generate new token when signing in
                     updateUI(user);
 
                 } else {
@@ -199,7 +197,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if(Objects.requireNonNull(documentSnapshot.getString(IS_ADMIN_KEY)).equals("true")){
                                 showAdminUI();    // Show admin UI if user is an admin
                             } else {
-                                generateAndSaveFCMToken(user);
+                                generateAndSaveFCMToken(user);  // generate new token for users only when signing in and creating a new account
                                 showRegularUI();  // Show user UI if user is a regular user
                             }
                         } else {
