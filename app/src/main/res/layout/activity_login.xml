@@ -88,7 +88,11 @@
             android:layout_marginEnd="@dimen/button_horizontal_margin"
             android:layout_marginBottom="15dp"
             android:layout_weight="0"
+            android:backgroundTint="#C47FF7"
+            android:shadowColor="#00C21414"
             android:text="@string/sign_in"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
             android:theme="@style/ThemeOverlay.MyDarkButton" />
 
         <Button
@@ -98,7 +102,10 @@
             android:layout_marginStart="@dimen/button_horizontal_margin"
             android:layout_marginEnd="@dimen/button_horizontal_margin"
             android:layout_weight="0"
+            android:backgroundTint="#4088FC"
             android:text="@string/create_account"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
             android:theme="@style/ThemeOverlay.MyDarkButton" />
     </LinearLayout>
 </LinearLayout>
