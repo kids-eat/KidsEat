@@ -5,7 +5,6 @@
     android:versionCode="1"
     android:versionName="1.0">
 
-
     <uses-permission android:name="com.kidseat.kidseat.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="com.kidseat.kidseat.permission.INTERNET" />
 
@@ -16,33 +15,49 @@
         android:roundIcon="@drawable/kids_eat_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.kidseat.kidseat.organizer_activities.ManageEventActivity"
-                  android:parentActivityName=".organizer_activities.OrganizerMainActivity"/>
+
+        <activity
+            android:name=".organizer_activities.ManageEventActivity"
+            android:parentActivityName=".organizer_activities.OrganizerMainActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_api_key" /> <!-- <activity -->
-        <activity android:name="com.kidseat.kidseat.organizer_activities.AddEventActivity"
-                  android:parentActivityName=".MainActivity"/>
-        <activity android:name="com.kidseat.kidseat.organizer_activities.OrganizerMainActivity" />
-        <activity android:name="com.kidseat.kidseat.LoginActivity" />
         <activity
-            android:name="com.kidseat.kidseat.SplashScreenActivity"
+            android:name=".organizer_activities.AddEventActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".organizer_activities.OrganizerMainActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".SplashScreenActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT"/>
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.kidseat.kidseat.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name="com.kidseat.kidseat.EventDetailActivity"
-                  android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".EventDetailActivity"
+            android:parentActivityName=".MainActivity" />
+
+        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
+        See README(https://goo.gl/l4GJaQ) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/kids_eat_logo" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/quantum_purple" />
+
     </application>
 
 </manifest>
