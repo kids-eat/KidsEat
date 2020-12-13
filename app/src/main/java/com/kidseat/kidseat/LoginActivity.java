@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.kidseat.kidseat.organizer_activities.OrganizerMainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private static final String TAG = "LoginActivity";
     public static final String IS_ADMIN_KEY = "isAdmin";
+    public static final String FCM_TOKEN = "fcmToken";
 
     public FirebaseAuth mAuth;
     public FirebaseFirestore dbFirestore;
@@ -77,7 +79,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!validateForm()) {
             return;
         }
-
         showProgressBar();    // show the progress before the account formation process
 
         // Create user with email using the Firebase Auth's method
@@ -88,15 +89,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success");
                     FirebaseUser user = mAuth.getCurrentUser();
-
-                    // Create a hashmap of user admin privileges to add to 'users' collection in Firestore
                     assert user != null;
                     String user_Id = user.getUid();
-                    Map<String, Object> userAcessLevel = new HashMap<String, Object>();
-                    userAcessLevel.put(IS_ADMIN_KEY, "false");     // By default, a new user is not an admin
+                    // Create a hashmap of user admin privileges to add to 'users' collection in Firestore
+                    Map<String, Object> userAccessLevel = new HashMap<String, Object>();
+                    userAccessLevel.put(IS_ADMIN_KEY, "false");     // By default, a new user is not an admin
 
                     // Add user admin privileges to 'users' collection in Firestore
-                    dbFirestore.collection("users").document(user_Id).set(userAcessLevel);
+                    dbFirestore.collection("users").document(user_Id).set(userAccessLevel);
                     updateUI(user);
 
                 } else {
@@ -116,7 +116,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!validateForm()) {
             return;
         }
-
         showProgressBar();    // show the progress bar before the sign-in
 
         // Sign in with email
@@ -161,7 +160,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return valid;
     }
 
-    private void updateUI(FirebaseUser user) {
+    private void generateAndSaveFCMToken(final FirebaseUser user) {
+        // Generates the FCM (Firebase Cloud Messaging) registration token and stores in a document associated with the user
+
+        FirebaseMessaging.getInstance().getToken()
+            .addOnCompleteListener(new OnCompleteListener<String>() {
+                @Override
+                public void onComplete(@NonNull Task<String> task) {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+                    String token = task.getResult();  // Get new FCM registration token
+
+                    Map<String, Object> userToken = new HashMap<String, Object>();
+                    userToken.put(FCM_TOKEN, token);
+                    dbFirestore.collection("users").document(user.getUid()).update(userToken);  // Add token to Firestore
+                }
+            });
+    }
+
+
+    private void updateUI(final FirebaseUser user) {
         // Goes to next page depending on the user type
 
         hideProgressBar();    // hide the progress bar
@@ -177,6 +197,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if(Objects.requireNonNull(documentSnapshot.getString(IS_ADMIN_KEY)).equals("true")){
                                 showAdminUI();    // Show admin UI if user is an admin
                             } else {
+                                generateAndSaveFCMToken(user);  // generate new token for users only when signing in and creating a new account
                                 showRegularUI();  // Show user UI if user is a regular user
                             }
                         } else {
