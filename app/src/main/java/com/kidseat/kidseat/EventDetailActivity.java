@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import android.text.method.LinkMovementMethod;
 
 public class EventDetailActivity extends AppCompatActivity {
 
@@ -30,6 +32,8 @@ public class EventDetailActivity extends AppCompatActivity {
     TextView tvDescription;
     ImageView ivImage;
     TextView tvMealType;
+    TextView tvFacebookLink;
+    TextView tvInstagramLink;
 
     public EventDetailActivity() {}   // Empty constructor is needed
 
@@ -47,6 +51,8 @@ public class EventDetailActivity extends AppCompatActivity {
         tvAddress = findViewById(R.id.tvAddress);
         tvDescription = findViewById(R.id.tvDescription);
         tvMealType = findViewById(R.id.tvMealType);
+        tvFacebookLink = findViewById(R.id.tvFacebookLink);
+        tvInstagramLink = findViewById(R.id.tvInstagramLink);
 
         dbFirestore = FirebaseFirestore.getInstance();  // connect to Firestore database
 
@@ -67,10 +73,37 @@ public class EventDetailActivity extends AppCompatActivity {
                             tvName.setText(documentSnapshot.getString("name"));
                             setTitle(documentSnapshot.getString("name"));
                             tvDate.setText(documentSnapshot.getString("date"));
-                            tvTime.setText(documentSnapshot.getString("time"));
+                            String time = " | " + documentSnapshot.getString("time");
+                            tvTime.setText(time);
                             tvAddress.setText(documentSnapshot.getString("address"));
                             tvDescription.setText(documentSnapshot.getString("description"));
                             tvMealType.setText((documentSnapshot.getString("meal_type")));
+
+                            String facebook_link = documentSnapshot.getString("facebook_link");
+                            assert facebook_link != null;
+
+                            String instagram_link = documentSnapshot.getString("instagram_link");
+                            assert instagram_link != null;
+
+                            if (!(facebook_link.equals(""))) {
+                                String facebookPost = String.format("<a href=\"%s\">View Facebook Post</a>", facebook_link);
+                                tvFacebookLink.setText(Html.fromHtml(facebookPost));
+                                tvFacebookLink.setMovementMethod(LinkMovementMethod.getInstance());
+                            }
+
+                            if (!(instagram_link.equals("")) && facebook_link.equals("")) {
+                                String instagramPost = String.format("<a href=\"%s\">View Instagram Post</a>", instagram_link);
+                                // Show the instagram link in the position of fb link if there is no fb link
+                                tvFacebookLink.setText(Html.fromHtml(instagramPost));
+                                tvFacebookLink.setMovementMethod(LinkMovementMethod.getInstance());
+                            }
+
+                            if (!instagram_link.equals("") && !(facebook_link.equals(""))) {
+                                String instagramPost = String.format("| " + "<a href=\"%s\">View Instagram Post</a>", instagram_link);
+                                tvInstagramLink.setText(Html.fromHtml(instagramPost));
+                                tvInstagramLink.setMovementMethod(LinkMovementMethod.getInstance());
+                            }
+
                             String image = documentSnapshot.getString("image");
                             if (image != null) {
                                 Glide.with(ivImage.getContext()).load(image).into(ivImage);
