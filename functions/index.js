@@ -38,7 +38,6 @@ exports.sendNotificationToToken = functions.firestore.document('events/{eventId}
     };
 
     let response = await admin.messaging().sendMulticast(message);
-    console.log(response);
 
   });
 
