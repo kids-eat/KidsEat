@@ -150,7 +150,7 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
                         tvAddress.setText(currentAddressText + placeAddress);
                         etMealType.setText(documentSnapshot.getString(MEAL_TYPE_KEY));
                         etDetails.setText(documentSnapshot.getString(DESCRIPTION_KEY));
-                        etFacebookLink.setText(documentSnapshot.getString(FACEBOOK_LINK_KEY)); // TODO: Convert this into a clickable link
+                        etFacebookLink.setText(documentSnapshot.getString(FACEBOOK_LINK_KEY));
                         etInstagramLink.setText(documentSnapshot.getString(INSTAGRAM_LINK_KEY));
                         rawDate = documentSnapshot.getString(RAW_DATE_KEY);
                         stringUri = documentSnapshot.getString(IMAGE_URL_KEY);
