@@ -66,6 +66,8 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
     public static final String IMAGE_URL_KEY = "image";
     public static final String LAT_LNG_KEY = "latlng";
     public static final String LOCATION_ID_KEY = "location_id";
+    public static final String FACEBOOK_LINK_KEY = "facebook_link";
+    public static final String INSTAGRAM_LINK_KEY= "instagram_link";
 
     private static final int PICK_IMAGE_REQUEST = 1;
     public static final String EVENT_ID = "event_id";
@@ -83,6 +85,8 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
     String placeAddress;
     EditText etMealType;
     EditText etDetails;
+    EditText etFacebookLink;
+    EditText etInstagramLink;
     String stringUri;  // download Uri of the image in the Cloud Storage
     Button btnChooseImage;
     ImageView ivImage;
@@ -111,6 +115,8 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
         tvAddress = findViewById(R.id.tvAddress);
         etMealType = findViewById(R.id.etMealType);
         etDetails = findViewById(R.id.etDetails);
+        etFacebookLink = findViewById(R.id.etFacebookLink);
+        etInstagramLink = findViewById(R.id.etInstagramLink);
         btnChooseImage = findViewById(R.id.btnChooseImage);
         ivImage = findViewById(R.id.ivImage);
         btnRemove = findViewById(R.id.btnRemove);
@@ -144,6 +150,8 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
                         tvAddress.setText(currentAddressText + placeAddress);
                         etMealType.setText(documentSnapshot.getString(MEAL_TYPE_KEY));
                         etDetails.setText(documentSnapshot.getString(DESCRIPTION_KEY));
+                        etFacebookLink.setText(documentSnapshot.getString(FACEBOOK_LINK_KEY));
+                        etInstagramLink.setText(documentSnapshot.getString(INSTAGRAM_LINK_KEY));
                         rawDate = documentSnapshot.getString(RAW_DATE_KEY);
                         stringUri = documentSnapshot.getString(IMAGE_URL_KEY);
                         if (stringUri != null) {
@@ -388,6 +396,8 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
         String etTimeText = etTime.getText().toString();
         String etMealTypeText = etMealType.getText().toString();
         String etDetailsText = etDetails.getText().toString();
+        String etFacebookLinkText = etFacebookLink.getText().toString();
+        String etInstagramLinkText = etInstagramLink.getText().toString();
 
         placeAddress = (placeAddress == null) ? "" : placeAddress;
         stringUri = (stringUri == null) ? "" : stringUri;
@@ -405,6 +415,8 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
         eventToSave.put(TIME_KEY, etTimeText);
         eventToSave.put(MEAL_TYPE_KEY, etMealTypeText);
         eventToSave.put(DESCRIPTION_KEY, etDetailsText);
+        eventToSave.put(FACEBOOK_LINK_KEY, etFacebookLinkText);
+        eventToSave.put(INSTAGRAM_LINK_KEY, etInstagramLinkText);
         eventToSave.put(IMAGE_URL_KEY, stringUri);
         eventToSave.put(RAW_DATE_KEY, rawDate);
 

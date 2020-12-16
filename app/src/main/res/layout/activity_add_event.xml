@@ -29,7 +29,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:ems="10"
-                android:hint="Event name"
+                android:hint="@string/event_name"
                 android:inputType="textPersonName" />
 
 
@@ -42,7 +42,7 @@
                 android:layout_marginEnd="10dp"
                 android:autoText="false"
                 android:ems="10"
-                android:hint="Pick Date"
+                android:hint="@string/pick_date"
                 android:inputType="text" />
 
             <EditText
@@ -53,7 +53,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="10dp"
                 android:ems="10"
-                android:hint="Pick Time"
+                android:hint="@string/pick_time"
                 android:inputType="text" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="10dp"
-                android:text="Choose Location:"
+                android:text="@string/choose_location"
                 android:textSize="18sp" />
 
             <androidx.cardview.widget.CardView
@@ -89,7 +89,7 @@
                 android:autofillHints=""
                 android:ems="10"
                 android:gravity="start|top"
-                android:hint="Meal Type"
+                android:hint="@string/meal_type"
                 android:inputType="text" />
 
             <EditText
@@ -101,7 +101,31 @@
                 android:layout_marginEnd="10dp"
                 android:ems="10"
                 android:gravity="start|top"
-                android:hint="Description..."
+                android:hint="@string/description"
+                android:inputType="textMultiLine" />
+
+            <EditText
+            android:id="@+id/etFacebookLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/link_to_facebook_post"
+            android:inputType="textMultiLine" />
+
+            <EditText
+                android:id="@+id/etInstagramLink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/link_to_instagram_post"
                 android:inputType="textMultiLine" />
 
             <Button
@@ -111,7 +135,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
-                android:text="Choose Image" />
+                android:text="@string/choose_image" />
 
             <ImageView
                 android:id="@+id/ivImage"
@@ -128,7 +152,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:backgroundTint="#45EC3E"
-                android:text="Save" />
+                android:text="@string/save" />
 
         </LinearLayout>
     </ScrollView>

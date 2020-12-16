@@ -65,6 +65,8 @@ public class AddEventActivity extends AppCompatActivity {
     public static final String LAT_LNG_KEY = "latlng";
     public static final String LOCATION_ID_KEY = "location_id";
     public static final String CREATED_AT_KEY = "created_at";
+    public static final String FACEBOOK_LINK_KEY = "facebook_link";
+    public static final String INSTAGRAM_LINK_KEY= "instagram_link";
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -79,6 +81,8 @@ public class AddEventActivity extends AppCompatActivity {
     String placeAddress;
     EditText etMealType;
     EditText etDetails;
+    EditText etFacebookLink;
+    EditText etInstagramLink;
     String stringUri;    // download Uri of the image in the Cloud Storage
     Button btnChooseImage;
     ImageView ivImage;
@@ -105,6 +109,8 @@ public class AddEventActivity extends AppCompatActivity {
         etTime = findViewById(R.id.etTime);
         etMealType = findViewById(R.id.etMealType);
         etDetails = findViewById(R.id.etDetails);
+        etFacebookLink = findViewById(R.id.etFacebookLink);
+        etInstagramLink = findViewById(R.id.etInstagramLink);
         btnChooseImage = findViewById(R.id.btnChooseImage);
         ivImage = findViewById(R.id.ivImage);
         btnSave = findViewById(R.id.btnSave);
@@ -291,6 +297,8 @@ public class AddEventActivity extends AppCompatActivity {
         String etTimeText = etTime.getText().toString();
         String etMealTypeText = etMealType.getText().toString();
         String etDetailsText = etDetails.getText().toString();
+        String etFacebookLinkText = etFacebookLink.getText().toString();
+        String etInstagramLinkText = etInstagramLink.getText().toString();
 
         placeAddress = (placeAddress == null) ? "" : placeAddress;
         stringUri = (stringUri == null) ? "" : stringUri;
@@ -308,6 +316,8 @@ public class AddEventActivity extends AppCompatActivity {
         eventToSave.put(LOCATION_ID_KEY, placeLocationID);
         eventToSave.put(RAW_DATE_KEY, rawDate);
         eventToSave.put(CREATED_AT_KEY, Timestamp.now());
+        eventToSave.put(FACEBOOK_LINK_KEY, etFacebookLinkText);
+        eventToSave.put(INSTAGRAM_LINK_KEY, etInstagramLinkText);
 
         dbFirestore.collection("events")
             .add(eventToSave)

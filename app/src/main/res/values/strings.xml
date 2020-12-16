@@ -11,10 +11,22 @@
     <string name="signed_out">Signed Out</string>
     <string name="emailpassword_title_text">Welcome!</string>
     <string name="logo">logo</string>
-    <string name="add_event">add_event</string>
+    <string name="add_event">Add Event</string>
     <string name="meal_type">Meal Type</string>
     <string name="remove_event_dialog_title">Are you sure you want to remove?</string>
     <string name="remove_event_dialog_message">This action will remove the event from the database. It will no longer be visible.</string>
     <string name="yes">Yes, remove</string>
     <string name="cancel">Cancel</string>
+    <string name="link_to_facebook_post">Link to Facebook post</string>
+    <string name="description">Description...</string>
+    <string name="choose_location">Choose Location:</string>
+    <string name="pick_time">Pick Time</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="event_name">Event name</string>
+    <string name="link_to_instagram_post">Link to Instagram post</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="save">Save</string>
+    <string name="remove_event">Remove Event</string>
+    <string name="update">Update</string>
+    <string name="divider">|</string>
 </resources>
