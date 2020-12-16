@@ -79,27 +79,27 @@ public class EventDetailActivity extends AppCompatActivity {
                             tvDescription.setText(documentSnapshot.getString("description"));
                             tvMealType.setText((documentSnapshot.getString("meal_type")));
 
-                            String facebook_link = documentSnapshot.getString("facebook_link");
-                            assert facebook_link != null;
+                            String facebookLink = documentSnapshot.getString("facebook_link");
+                            assert facebookLink != null;
 
-                            String instagram_link = documentSnapshot.getString("instagram_link");
-                            assert instagram_link != null;
+                            String instagramLink = documentSnapshot.getString("instagram_link");
+                            assert instagramLink != null;
 
-                            if (!(facebook_link.equals(""))) {
-                                String facebookPost = String.format("<a href=\"%s\">View Facebook Post</a>", facebook_link);
+                            if (!(facebookLink.equals(""))) {
+                                String facebookPost = String.format("<a href=\"%s\">View Facebook Post</a>", facebookLink);
                                 tvFacebookLink.setText(Html.fromHtml(facebookPost));
                                 tvFacebookLink.setMovementMethod(LinkMovementMethod.getInstance());
                             }
 
-                            if (!(instagram_link.equals("")) && facebook_link.equals("")) {
-                                String instagramPost = String.format("<a href=\"%s\">View Instagram Post</a>", instagram_link);
+                            if (!(instagramLink.equals("")) && facebookLink.equals("")) {
+                                String instagramPost = String.format("<a href=\"%s\">View Instagram Post</a>", instagramLink);
                                 // Show the instagram link in the position of fb link if there is no fb link
                                 tvFacebookLink.setText(Html.fromHtml(instagramPost));
                                 tvFacebookLink.setMovementMethod(LinkMovementMethod.getInstance());
                             }
 
-                            if (!instagram_link.equals("") && !(facebook_link.equals(""))) {
-                                String instagramPost = String.format("| " + "<a href=\"%s\">View Instagram Post</a>", instagram_link);
+                            if (!instagramLink.equals("") && !(facebookLink.equals(""))) {
+                                String instagramPost = String.format("| " + "<a href=\"%s\">View Instagram Post</a>", instagramLink);
                                 tvInstagramLink.setText(Html.fromHtml(instagramPost));
                                 tvInstagramLink.setMovementMethod(LinkMovementMethod.getInstance());
                             }
