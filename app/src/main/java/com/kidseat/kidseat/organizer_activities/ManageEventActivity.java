@@ -12,6 +12,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -24,6 +27,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.kidseat.kidseat.LoginActivity;
 import com.kidseat.kidseat.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
@@ -91,7 +95,6 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
     Button btnChooseImage;
     ImageView ivImage;
     Button btnSave;
-    Button btnRemove;
     String placeLocationID;
     LatLng latLng;
     String rawDate;        // stores the date of the event in "MM/DD/YYYY" format
@@ -119,7 +122,6 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
         etInstagramLink = findViewById(R.id.etInstagramLink);
         btnChooseImage = findViewById(R.id.btnChooseImage);
         ivImage = findViewById(R.id.ivImage);
-        btnRemove = findViewById(R.id.btnRemove);
         btnSave = findViewById(R.id.btnSave);
         progBar = findViewById(R.id.progBar);
         final String currentAddressText = "Current Address: ";
@@ -229,14 +231,6 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
             }
         });
 
-        btnRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment dialog = new RemoveEventDialog();
-                dialog.show(getSupportFragmentManager(), "remove_event");
-            }
-        });
-
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -278,6 +272,28 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Create the menu on action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_manage_event, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_remove_event:
+                // Call Remove Function
+                DialogFragment dialog = new RemoveEventDialog();
+                dialog.show(getSupportFragmentManager(), "remove_event");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // The dialog fragment receives a reference to this Activity through the
