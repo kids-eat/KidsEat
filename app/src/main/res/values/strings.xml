@@ -26,7 +26,7 @@
     <string name="link_to_instagram_post">Link to Instagram post</string>
     <string name="choose_image">Choose Image</string>
     <string name="save">Save</string>
-    <string name="remove_event">Remove Event</string>
     <string name="update">Update</string>
     <string name="divider">|</string>
+    <string name="remove_event">Remove Event</string>
 </resources>
