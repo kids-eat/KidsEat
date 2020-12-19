@@ -264,7 +264,7 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
             public void onPlaceSelected(Place place) {
 
                 // retrieve location address and name from the organizer
-                placeAddress = place.getAddress();
+                placeAddress = place.getName() +", " + place.getAddress();
                 placeLocationID = place.getId();
                 latLng = place.getLatLng();
                 tvAddress.setText(currentAddressText + placeAddress);
