@@ -75,7 +75,7 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
 
     FirebaseFirestore dbFirestore;
     DocumentReference eventReference;
-    StorageReference mStorageRef;
+    FirebaseStorage mStorageRef;
     public FirebaseAuth mAuth;
 
     EditText etName;
@@ -125,14 +125,14 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
         final String currentAddressText = "Current Address: ";
 
         dbFirestore = FirebaseFirestore.getInstance();    // Initialize Cloud Firestore instance
-        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
+        mStorageRef = FirebaseStorage.getInstance();
         mAuth = FirebaseAuth.getInstance();              // Initialize Firebase Auth Instance
 
         // Retrieve the ID of the document being referenced
         eventId = getIntent().getExtras().getString(EVENT_ID);
         if (eventId == null) { throw new IllegalArgumentException(EVENT_ID);}
 
-        // Get reference to the restaurant
+        // Get reference to the event
         eventReference = dbFirestore.collection("events").document(eventId);
 
         eventReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -316,7 +316,7 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
         // method to upload files to Firebase Storage
         progBar.setVisibility(ProgressBar.VISIBLE);
         if(imageUri != null){
-            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
+            final StorageReference fileReference = mStorageRef.getReference("uploads").child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
             final UploadTask uploadTask;
             uploadTask = fileReference.putFile(imageUri);
             uploadTask
@@ -378,6 +378,7 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
                 public void onSuccess(Void aVoid) {
                     Log.d(TAG, "DocumentSnapshot successfully deleted!");
                     Toast.makeText(ManageEventActivity.this, "Event Removed Successfully", Toast.LENGTH_SHORT).show();
+                    removeFile();    // removes the image associated with the event from Cloud Storage
                     redirectMainPage();
                 }
             })
@@ -387,6 +388,28 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
                     Log.w(TAG, "Error deleting document", e);
                 }
             });
+    }
+
+    /**
+     * remove the image associated with the event from Cloud Storage
+     */
+    private void removeFile() {
+
+        // Create a reference to the file to delete
+        StorageReference imageRef = mStorageRef.getReferenceFromUrl(stringUri);
+
+        // Delete the file
+        imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+            }
+        });
     }
 
     private void updateEvent() {
