@@ -11,22 +11,13 @@
 
 ## Overview
 ### Description
-Kids Eat is an Android app that notifies over 4,000 low-income local community members of the locations and times of free sites organized by the non-profit Berea Kids Eat. The app also serves as a centralized platform for the organization to manage all of its events.
+Kids Eat is an Android app that helps notify low-income local community members of the locations and times of free meal distribution sites organized by the non-profit Berea Kids Eat in Berea, KY. The app serves as a centralized platform for the organization to manage all of its meal events.
 
-### App Evaluation
+### About Kids Eat
 
-- **Mobile:** Android Mobile Application; Uses Java, Android Studio, Cloud Firestore Database, Cloud Storage, Firebase Authentication, Google Maps API, and Places API.
-- **Story:** Grow Appalachia is a non-profit organization located in Berea, KY, with a mission to combat food insecurity and malnutrition in the Appalachian region. Berea is home for 15,000 people, 30% of whom live below the poverty line while the national average rate for poverty is 12%. To address the problem, Grow Appalachia started the Berea Kids Eat program in a partnership with Berea College and the United States Department of Agriculture (USDA). Berea Kids Eat aims to fight childhood hunger and food insecurity within the town of Berea. The program provides free lunch and breakfast to youths aged 18 or less, especially during the summer break period when the food budget of families increases. 
-- **Problem:** The organization was facing difficulties in accurately notifying families of the locations and times of their programs and meal distribution sites. Kids Eat mobile application allows Berea Kids Eat program to have a centralized platform for notifying families of the location and details of their events.
-- **Market:** 30% of Berea, Kentucky population who live below the poverty line.
-- **Habit:** Users can see a detailed description of events posted by Berea Kids Eat and a visual representation of nearest food locations on an interactive map. The app will also send notifications to the user notifying them of the newest events posted. 
-- **Scope:** 
-
-**First stage:**  provide the Android application to Berea Kids Eat organization and expect it to be used by nearly 4,000 people in Berea, Kentucky. 
-
-**Second Stage:** develop an iOS version of the app.
-
-**Third Stage:**  propose the project to United States Department of Agriculture (USDA) for it to be used across partner USDA Summer Food Service Programs nationally.
+- **App Type:** Android Mobile Application; Uses Java, Cloud Firestore database, Cloud Storage, Cloud Functions, Firebase Authentication, Google Maps API, and Places API.
+- **Story:** Grow Appalachia is a non-profit organization located in Berea, KY, with a mission to combat food insecurity and malnutrition in the Appalachian region. Berea is home for 15,000 people, 30% of whom live below the poverty line while the national average rate for poverty is 12%. To address the problem, Grow Appalachia started the Berea Kids Eat program in a partnership with Berea College and the United States Department of Agriculture (USDA). Berea Kids Eat aims to fight food insecurity within the town of Berea. The program provides free lunch and breakfast to youths aged 18 or less, especially during the summer break period when the food budget of families increases. 
+- **Problem:** The organization was facing difficulties in notifying families about the locations and times of their programs and meal distribution sites. Kids Eat mobile application allows Berea Kids Eat program to have a centralized platform for managing its events and providing details about them.
 
 ## Installation Guide
 The app can be installed and tested in 5 steps:
