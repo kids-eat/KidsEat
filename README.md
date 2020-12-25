@@ -20,7 +20,7 @@ Kids Eat is an Android app that helps notify low-income local community members 
 - **Problem:** The organization was facing difficulties in notifying families about the locations and times of their programs and meal distribution sites. Kids Eat mobile application allows Berea Kids Eat program to have a centralized platform for managing its events and providing details about them.
 
 ## Installation Guide
-The app can be installed and tested in 5 steps:
+The app can be installed and tested with the following steps:
 1. Install [Android Studio](https://developer.android.com/studio) on your machine.
 2. Create an [Android Virtual Device (AVD)](https://developer.android.com/studio/run/managing-avds) in your Android Studio.
 3. Clone the Kids Eat repo to your local machine.
@@ -30,7 +30,7 @@ The app can be installed and tested in 5 steps:
 ## Product Spec
 ### Video Walkthrough
 
-Here's a walkthrough of implemented user stories in Sprint 4:
+Here's a walkthrough of implemented user stories:
 
 #### User View (How users access the information about meal sites): 
 <img src='https://github.com/Kids-Eat/KidsEat/blob/master/app_demos/appDemo4.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
@@ -39,9 +39,7 @@ Here's a walkthrough of implemented user stories in Sprint 4:
 <img src='https://github.com/Kids-Eat/KidsEat/blob/master/app_demos/appDemo5.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
-### User Stories (Must-have and Optional)
-
-**Required Must-have Stories**
+### User Stories
 
 - [x] App Authentication system allows both admin and regular users to use the same app to manage and view events.
 - [x] User can sign up and create an account and by default will become a regular user, i.e. not admin.
@@ -56,33 +54,28 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 - [x] Admin/Organizer can create events using a form.
 - [x] Admin/Organizer can upload images and search for locations using Places API.
 - [x] Admin/Organizer can update previously created events. 
-
-
-**Optional Nice-to-have Stories**
-
-* User can receive push notifications in the background.
-* User can turn on/off notifications.
+- [x] User can receive push notifications in the background.
 
 
 ## Wireframes
 ![](https://i.imgur.com/CKhi2as.png)
 
 
-## Schema 
-### Models
-#### Post
+## Schema
 
    | Property      | Type     | Description                            |
    | ------------- | -------- | -------------------------------------- |
    | name          | String   | name of the event                      |
    | description   | String   | event details                          |
-   | image         | File     | image of event that organizer posts    |
+   | image         | Reference| image of event that organizer posts    |
    | date          | String   | date when the event will take place    |
    | time          | String   | time when the event will take place    |
    | address       | String   | address of the event                   |
-   | meal-type     | String   | the type of meal provided at the event |
+   | meal_type     | String   | the type of meal provided at the event |
    | createdAt     | Timestamp| date when event is created             |
    | latlng        | Geopoint | lat/long of event location             |
+   | facebook_link | String   | link to the event posted on Facebook   |
+   | instagram_link| String   | link to the event posted on Instagram  |
 
 ## License
 
