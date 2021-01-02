@@ -57,9 +57,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ManageEventActivity extends AppCompatActivity implements RemoveEventDialog.RemoveEventDialogListener {
+public class ManageEventActivity extends AddEventActivity implements RemoveEventDialog.RemoveEventDialogListener {
 
-    // Event document fields
+    public static final String TAG = "ManageEventActivity";
+    // Event document keys
     public static final String NAME_KEY = "name";
     public static final String DATE_KEY = "date";
     public static final String RAW_DATE_KEY = "raw_date";
@@ -72,10 +73,9 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
     public static final String LOCATION_ID_KEY = "location_id";
     public static final String FACEBOOK_LINK_KEY = "facebook_link";
     public static final String INSTAGRAM_LINK_KEY= "instagram_link";
-
     private static final int PICK_IMAGE_REQUEST = 1;
     public static final String EVENT_ID = "event_id";
-    public static final String TAG = "ManageEventActivity";
+
 
     FirebaseFirestore dbFirestore;
     DocumentReference eventReference;
@@ -430,36 +430,15 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
 
     private void updateEvent() {
         // pushes all the updates to the database
-        String etNameText = etName.getText().toString();
-        String etDateText = etDate.getText().toString();
-        String etTimeText = etTime.getText().toString();
-        String etMealTypeText = etMealType.getText().toString();
-        String etDetailsText = etDetails.getText().toString();
-        String etFacebookLinkText = etFacebookLink.getText().toString();
-        String etInstagramLinkText = etInstagramLink.getText().toString();
-
-        placeAddress = (placeAddress == null) ? "" : placeAddress;
-        stringUri = (stringUri == null) ? "" : stringUri;
-
-        Map<String, Object> eventToSave = new HashMap<String, Object>();
+        Map<String, Object> eventMap = getEventMap();
 
         if(isPlaceUpdated){
-            eventToSave.put(ADDRESS_KEY, placeAddress);
-            eventToSave.put(LAT_LNG_KEY, latLng);
-            eventToSave.put(LOCATION_ID_KEY, placeLocationID);
+            eventMap.put(ADDRESS_KEY, placeAddress);
+            eventMap.put(LAT_LNG_KEY, latLng);
+            eventMap.put(LOCATION_ID_KEY, placeLocationID);
         }
 
-        eventToSave.put(NAME_KEY, etNameText);
-        eventToSave.put(DATE_KEY, etDateText);
-        eventToSave.put(TIME_KEY, etTimeText);
-        eventToSave.put(MEAL_TYPE_KEY, etMealTypeText);
-        eventToSave.put(DESCRIPTION_KEY, etDetailsText);
-        eventToSave.put(FACEBOOK_LINK_KEY, etFacebookLinkText);
-        eventToSave.put(INSTAGRAM_LINK_KEY, etInstagramLinkText);
-        eventToSave.put(IMAGE_URL_KEY, stringUri);
-        eventToSave.put(RAW_DATE_KEY, rawDate);
-
-        eventReference.update(eventToSave)
+        eventReference.update(eventMap)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -478,10 +457,4 @@ public class ManageEventActivity extends AppCompatActivity implements RemoveEven
         progBar.setVisibility(ProgressBar.INVISIBLE);    // hide the progress bar after the event creation process
     }
 
-    private void redirectMainPage(){
-        // Switches to admin Main Activity
-        Intent intent = new Intent(ManageEventActivity.this, OrganizerMainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);  // clears the stack (disables going back with back button)
-        startActivity(intent);
-    }
 }

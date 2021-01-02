@@ -96,6 +96,8 @@ public class AddEventActivity extends AppCompatActivity {
 
     private Uri imageUri;   // Uri of the local image
 
+    public AddEventActivity() {}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -290,7 +292,7 @@ public class AddEventActivity extends AppCompatActivity {
         });
     }
 
-    private void createEvent() {
+    public Map<String, Object> getEventMap() {
 
         String etNameText = etName.getText().toString();
         String etDateText = etDate.getText().toString();
@@ -303,24 +305,33 @@ public class AddEventActivity extends AppCompatActivity {
         placeAddress = (placeAddress == null) ? "" : placeAddress;
         stringUri = (stringUri == null) ? "" : stringUri;
 
-        Map<String, Object> eventToSave = new HashMap<String, Object>();
+        Map<String, Object> eventMap = new HashMap<>();
 
-        eventToSave.put(NAME_KEY, etNameText);
-        eventToSave.put(DATE_KEY, etDateText);
-        eventToSave.put(TIME_KEY, etTimeText);
-        eventToSave.put(ADDRESS_KEY, placeAddress);
-        eventToSave.put(MEAL_TYPE_KEY, etMealTypeText);
-        eventToSave.put(DESCRIPTION_KEY, etDetailsText);
-        eventToSave.put(IMAGE_URL_KEY, stringUri);
-        eventToSave.put(LAT_LNG_KEY, latLng);
-        eventToSave.put(LOCATION_ID_KEY, placeLocationID);
-        eventToSave.put(RAW_DATE_KEY, rawDate);
-        eventToSave.put(CREATED_AT_KEY, Timestamp.now());
-        eventToSave.put(FACEBOOK_LINK_KEY, etFacebookLinkText);
-        eventToSave.put(INSTAGRAM_LINK_KEY, etInstagramLinkText);
+        eventMap.put(ADDRESS_KEY, placeAddress);
+        eventMap.put(LAT_LNG_KEY, latLng);
+        eventMap.put(LOCATION_ID_KEY, placeLocationID);
+
+        eventMap.put(NAME_KEY, etNameText);
+        eventMap.put(DATE_KEY, etDateText);
+        eventMap.put(TIME_KEY, etTimeText);
+        eventMap.put(MEAL_TYPE_KEY, etMealTypeText);
+        eventMap.put(DESCRIPTION_KEY, etDetailsText);
+        eventMap.put(IMAGE_URL_KEY, stringUri);
+        eventMap.put(RAW_DATE_KEY, rawDate);
+        eventMap.put(FACEBOOK_LINK_KEY, etFacebookLinkText);
+        eventMap.put(INSTAGRAM_LINK_KEY, etInstagramLinkText);
+
+        return eventMap;
+    }
+
+    private void createEvent() {
+
+        Map<String, Object> eventMap = getEventMap();
+
+        eventMap.put(CREATED_AT_KEY, Timestamp.now());
 
         dbFirestore.collection("events")
-            .add(eventToSave)
+            .add(eventMap)
             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
@@ -338,7 +349,7 @@ public class AddEventActivity extends AppCompatActivity {
         progBar.setVisibility(ProgressBar.INVISIBLE);  // hide the progress bar after the event creation process
     }
 
-    private void redirectMainPage(){
+    protected void redirectMainPage(){
         // Switches to admin Main Activity
         Intent intent = new Intent(AddEventActivity.this, OrganizerMainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);  // clears the stack (disables going back with back button)
