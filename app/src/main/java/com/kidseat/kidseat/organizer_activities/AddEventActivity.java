@@ -53,6 +53,8 @@ import java.util.Objects;
 
 public class AddEventActivity extends AppCompatActivity {
 
+    public static final String TAG = "AddEventActivity";
+
     // Event document fields (keys)
     public static final String NAME_KEY = "name";
     public static final String DATE_KEY = "date";
@@ -70,30 +72,30 @@ public class AddEventActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    public static final String TAG = "AddEventActivity";
+    private FirebaseFirestore dbFirestore;
+    private StorageReference mStorageRef;
 
-    FirebaseFirestore dbFirestore;
-    StorageReference mStorageRef;
+    // Declare UI widget variables
+    private EditText etName;
+    private EditText etDate;
+    private EditText etTime;
+    private EditText etMealType;
+    private EditText etDetails;
+    private EditText etFacebookLink;
+    private EditText etInstagramLink;
+    private Button btnChooseImage;
+    private ImageView ivImage;
+    private Button btnSave;
+    private ProgressBar progBar;
+    private DatePickerDialog datePickerDialog;
+    private TimePickerDialog timePickerDialog;
 
-    EditText etName;
-    EditText etDate;
-    EditText etTime;
-    String placeAddress;
-    EditText etMealType;
-    EditText etDetails;
-    EditText etFacebookLink;
-    EditText etInstagramLink;
-    String stringUri;    // download Uri of the image in the Cloud Storage
-    Button btnChooseImage;
-    ImageView ivImage;
-    Button btnSave;
-    String placeLocationID;
-    LatLng latLng;
-    String rawDate;        // stores the date of the event in "MM/DD/YYYY" format
-    ProgressBar progBar;
-    DatePickerDialog datePickerDialog;
-    TimePickerDialog timePickerDialog;
-
+    // Other instance variables
+    private LatLng latLng;
+    private String placeAddress;
+    private String placeLocationID;
+    private String rawDate;        // stores the date of the event in "MM/DD/YYYY" format
+    private String stringUri;    // download Uri of the image in the Cloud Storage
     private Uri imageUri;   // Uri of the local image
 
     @Override
@@ -116,6 +118,7 @@ public class AddEventActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         progBar = findViewById(R.id.progBar);
 
+        // Instantiate Firebase services' objects
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");   // Connect to Cloud Storage
         dbFirestore = FirebaseFirestore.getInstance();     // Connect to Cloud Firestore
 
@@ -187,7 +190,7 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
-        // Initialize Places.
+        // Initialize Places API.
         String secretValue = getString(R.string.google_maps_api_key);
         Places.initialize(getApplicationContext(), secretValue);
 
@@ -325,14 +328,12 @@ public class AddEventActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     Toast.makeText(AddEventActivity.this, "Event has been created!", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "Event has been saved!");
                     redirectMainPage();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Toast.makeText(AddEventActivity.this, "Failed to create event", Toast.LENGTH_SHORT).show();
-                    Log.w(TAG, "Event was not saved!", e);
                 }
             });
         progBar.setVisibility(ProgressBar.INVISIBLE);  // hide the progress bar after the event creation process
