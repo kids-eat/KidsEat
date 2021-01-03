@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "880587893613",
-    "firebase_url": "https://kidseat-f706f.firebaseio.com",
-    "project_id": "kidseat-f706f",
-    "storage_bucket": "kidseat-f706f.appspot.com"
+    "project_number": "120323824108",
+    "project_id": "kidseatdev",
+    "storage_bucket": "kidseatdev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:880587893613:android:56be4669d94d1c44dc4864",
+        "mobilesdk_app_id": "1:120323824108:android:aeba4142437bfbff4c48c9",
         "android_client_info": {
-          "package_name": "com.example.kidseat"
+          "package_name": "com.kidseat.kidseat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "880587893613-766m9ltljrlnnoh3s28pntmou3n8qagh.apps.googleusercontent.com",
+          "client_id": "120323824108-0roj2sl60bv5gd2lh0s5kg8fubro138u.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBP1tbQFhZ93_fUHV5GhoWtoVoC-0cMyaI"
+          "current_key": "AIzaSyCxeDm00MwGLZHrNQtk0qA3tBnSiVQUa6A"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "880587893613-766m9ltljrlnnoh3s28pntmou3n8qagh.apps.googleusercontent.com",
+              "client_id": "120323824108-0roj2sl60bv5gd2lh0s5kg8fubro138u.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -37,27 +36,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:880587893613:android:b46821086702009adc4864",
+        "mobilesdk_app_id": "1:120323824108:android:a83c6ccd21db989a4c48c9",
         "android_client_info": {
-          "package_name": "com.kidseat.kidseat"
+          "package_name": "com.kidseat.kidseatdev"
         }
       },
       "oauth_client": [
         {
-          "client_id": "880587893613-766m9ltljrlnnoh3s28pntmou3n8qagh.apps.googleusercontent.com",
+          "client_id": "120323824108-0roj2sl60bv5gd2lh0s5kg8fubro138u.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBP1tbQFhZ93_fUHV5GhoWtoVoC-0cMyaI"
+          "current_key": "AIzaSyCxeDm00MwGLZHrNQtk0qA3tBnSiVQUa6A"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "880587893613-766m9ltljrlnnoh3s28pntmou3n8qagh.apps.googleusercontent.com",
+              "client_id": "120323824108-0roj2sl60bv5gd2lh0s5kg8fubro138u.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

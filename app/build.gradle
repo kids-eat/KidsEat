@@ -1,9 +1,17 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
+// Creates a variable called keystorePropertiesFile, and initializes it to the keystore.properties file
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+// Initializes a new Properties() object.
+def keystoreProperties = new Properties()
+// Loads the keystore.properties file into the keystoreProperties object.
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+
     defaultConfig {
         applicationId "com.kidseat.kidseat"
         minSdkVersion 26
@@ -12,11 +20,25 @@ android {
         versionName "1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    // Encapsulates signing configurations.
+    signingConfigs {
+        // Creates a signing configuration called "release".
+        release {
+            storeFile file(keystoreProperties['storeFile']) // Specifies the path to the keystore file.
+            storePassword keystoreProperties['storePassword'] // Specifies the password for the keystore.
+            keyAlias keystoreProperties['keyAlias'] // Specifies the identifying name for the key.
+            keyPassword keystoreProperties['keyPassword'] // Specifies the password for the key.
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release // Adds the "release" signing configuration to the release build type.
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
     }
 }
 
