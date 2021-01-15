@@ -20,7 +20,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCxeDm00MwGLZHrNQtk0qA3tBnSiVQUa6A"
+          "current_key": "@string/google_api_key_dev"
         }
       ],
       "services": {
@@ -49,7 +49,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCxeDm00MwGLZHrNQtk0qA3tBnSiVQUa6A"
+          "current_key": "@string/google_api_key_dev"
         }
       ],
       "services": {
