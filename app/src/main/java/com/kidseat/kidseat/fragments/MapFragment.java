@@ -59,7 +59,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbFirestore = FirebaseFirestore.getInstance();
-//        Log.i("-------debug log");
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -29,12 +30,13 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-
+public class LoginActivity extends AppCompatActivity {
+    // initialization of constants
     private static final String TAG = "LoginActivity";
     public static final String IS_ADMIN_KEY = "isAdmin";
     public static final String FCM_TOKEN = "fcmToken";
 
+    // declaration of variables
     public FirebaseAuth mAuth;
     public FirebaseFirestore dbFirestore;
     public DocumentReference userInfo;
@@ -42,7 +44,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText emailField;
     private EditText passwordField;
     public ProgressBar progressBar;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,20 +59,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         passwordField = findViewById(R.id.fieldPassword);
 
         // Access buttons
-        findViewById(R.id.emailSignInButton).setOnClickListener(this);
-        findViewById(R.id.emailCreateAccountButton).setOnClickListener(this);
-    }
+        Button signInButton = findViewById(R.id.emailSignInButton);
+        Button createAccountButton = findViewById(R.id.emailCreateAccountButton);
 
+        createAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAccount(emailField.getText().toString(), passwordField.getText().toString());
+            }
+        });
 
-    @Override
-    public void onClick(View v) {
-        // Triggers when any of the buttons are clicked
-        int i = v.getId();
-        if (i == R.id.emailCreateAccountButton) {
-            createAccount(emailField.getText().toString(), passwordField.getText().toString());
-        } else if (i == R.id.emailSignInButton) {
-            signIn(emailField.getText().toString(), passwordField.getText().toString());
-        }
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn(emailField.getText().toString(), passwordField.getText().toString());
+            }
+        });
     }
 
     private void createAccount(String email, String password) {
