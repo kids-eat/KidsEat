@@ -27,17 +27,16 @@ import com.google.firebase.firestore.Query;
 
 public class OrganizerMainActivity extends AppCompatActivity implements EventsAdapter.OnEventSelectedListener {
 
-    private static final String TAG = "OrganizerMainActivity";
-
-    public static int LIMIT = 20;
+    public static final String TAG = "OrganizerMainActivity";
+    public static final int LIMIT = 20;    // items per page
     public static final String CREATED_AT_KEY = "created_at";
 
-    FirebaseFirestore dbFirestore;
-    FirebaseAuth mAuth;
+    private FirebaseFirestore dbFirestore;
+    private FirebaseAuth mAuth;
     private Query query;
 
-    LinearLayoutManager layoutManager;
-    EventsAdapter adapter;
+    private LinearLayoutManager layoutManager;
+    private EventsAdapter adapter;
     private RecyclerView rvEvents;
     private SwipeRefreshLayout swipeContainer;
 
@@ -47,6 +46,7 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
         setContentView(R.layout.activity_organizer_main);
 
         mAuth = FirebaseAuth.getInstance();
+
         rvEvents = findViewById(R.id.rvEvents);
         swipeContainer = findViewById(R.id.swipeContainer);
 
@@ -54,7 +54,6 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Log.i(TAG, "fetching new data");
                 adapter.setQuery(query);
                 swipeContainer.setRefreshing(false);
             }
@@ -86,9 +85,9 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
     }
 
     private void initRecyclerView() {
-        if (query == null) {
-            Log.w(TAG, "No query, not initializing RecyclerView");
-        }
+
+        // If no query, not initializing RecyclerView
+
         adapter = new EventsAdapter(query, this) {
 
             @Override
@@ -122,9 +121,18 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
     @Override
     public void onStop() {
         super.onStop();
+        // Stop listening for Firestore updates
         if (adapter != null) {
             adapter.stopListening();
         }
+    }
+
+    @Override
+    public void onEventSelected(DocumentSnapshot event) {
+        // Go to the update event page for the selected event
+        Intent i = new Intent(this, ManageEventActivity.class);
+        i.putExtra(ManageEventActivity.EVENT_ID, event.getId());
+        startActivity(i);
     }
 
     @Override
@@ -152,15 +160,6 @@ public class OrganizerMainActivity extends AppCompatActivity implements EventsAd
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onEventSelected(DocumentSnapshot event) {
-        // Go to the update event page for the selected event
-        Intent i = new Intent(this, ManageEventActivity.class);
-        i.putExtra(ManageEventActivity.EVENT_ID, event.getId());
-        Log.i(TAG, "Got event ID: " + event.getId());
-        startActivity(i);
     }
 
 }

@@ -88,7 +88,7 @@
             android:layout_marginEnd="@dimen/button_horizontal_margin"
             android:layout_marginBottom="15dp"
             android:layout_weight="0"
-            android:backgroundTint="#C47FF7"
+            android:backgroundTint="#1DBD19"
             android:shadowColor="#00C21414"
             android:text="@string/sign_in"
             android:textColor="#FFFFFF"
